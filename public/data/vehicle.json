@@ -1,0 +1,361 @@
+[
+  {
+    "Owner": {
+      "Number": "1234567890",
+      "OwnerName": "John Doe",
+      "OwnerMobileNo": "9876543210",
+      "OwnerPANNo": "ABCDE1234F",
+      "OwnerAddress": "1234 Elm St, Springfield, IL"
+    },
+    "Vehicle": {
+      "Make": "Toyota",
+      "BodyType": "Sedan",
+      "EngineNo": "ABC123XYZ",
+      "TruckNo": "ABC123XYZ",
+      "ChassisNo": "XYZ1234567890",
+      "Model": "Corolla",
+      "YearOfManufacture": "2020",
+      "VehicleType": "Owned"
+    },
+    "Fitness": {
+      "FitnessNo": "F123456",
+      "FitnessDate": "2024-01-15",
+      "FitnessExpiryDate": "2026-01-15"
+    },
+    "RoadTax": {
+      "StartDate": "2024-01-01",
+      "EndDate": "2025-01-01"
+    },
+    "Permit": {
+      "PermitNo": "P12345",
+      "ValidUpto": "2026-01-15"
+    },
+    "FiveYearPermit": {
+      "PermitNo": "FP67890",
+      "ValidUpto": "2029-01-15"
+    },
+    "Insurance": {
+      "PolicyNo": "INS12345",
+      "ValidFrom": "2024-01-01",
+      "ValidUpto": "2025-01-01"
+    },
+    "PUC": {
+      "PUCNo": "PUC123",
+      "PUCFromDate": "2024-01-15",
+      "PUCToDate": "2025-01-15"
+    },
+    "Documents": {
+      "RCDocument": "RC1234.pdf",
+      "FitnessDocument": "fitness_doc.pdf",
+      "RoadTaxDocument": "road_tax.pdf",
+      "NationalPermitDocument": "national_permit.pdf",
+      "FiveYearPermitDocument": "five_year_permit.pdf",
+      "InsuranceCopy": "insurance_copy.pdf",
+      "PUCDocument": "puc_document.pdf",
+      "DrivingLicense": "license_copy.pdf"
+    },
+    "Tyre": [
+      {
+        "TyreBillNo": "TYR12345",
+        "TyreBillDate": "2024-01-15",
+        "TyreDealerName": "TyreWorld",
+        "TyreRate": "1000",
+        "TyreMakers": "Michelin",
+        "TyreWarranty": "3 years",
+        "TyreNo": "123456789",
+        "TyreModel": "New",
+        "TyreType": "New",
+        "TyreFrontRear": "Front",
+        "TyreFittedOnDate": "2024-01-16",
+        "TyreRemovedOnDate": "2025-01-16",
+        "TyreStartKm": 0,
+        "TyreEndKm": 20000
+      }
+    ],
+    "Battery": {
+      "BatteryBillNo": "BAT12345",
+      "BatteryBillDate": "2024-01-15",
+      "BatteryDealerName": "BatteryShop",
+      "BatteryMakers": "Exide",
+      "BatteryWarranty": "2 years",
+      "BatteryWarrantyExpiryDate": "2026-01-15"
+    }
+  },
+  {
+    "Owner": {
+      "Number": "9876543211",
+      "OwnerName": "Jane Smith",
+      "OwnerMobileNo": "9876543211",
+      "OwnerPANNo": "XYZ987654L",
+      "OwnerAddress": "5678 Oak St, Chicago, IL"
+    },
+    "Vehicle": {
+      "Make": "Honda",
+      "BodyType": "SUV",
+      "EngineNo": "XYZ987654",
+      "TruckNo": "XYZ987654",
+      "ChassisNo": "ABC9876543210",
+      "Model": "CR-V",
+      "YearOfManufacture": "2022",
+      "VehicleType": "Owned"
+    },
+    "Fitness": {
+      "FitnessNo": "F987654",
+      "FitnessDate": "2024-02-10",
+      "FitnessExpiryDate": "2026-02-10"
+    },
+    "RoadTax": {
+      "StartDate": "2024-02-01",
+      "EndDate": "2025-02-01"
+    },
+    "Permit": {
+      "PermitNo": "P67890",
+      "ValidUpto": "2026-02-10"
+    },
+    "FiveYearPermit": {
+      "PermitNo": "FP12345",
+      "ValidUpto": "2029-02-10"
+    },
+    "Insurance": {
+      "PolicyNo": "INS67890",
+      "ValidFrom": "2024-02-01",
+      "ValidUpto": "2025-02-01"
+    },
+    "PUC": {
+      "PUCNo": "PUC678",
+      "PUCFromDate": "2024-02-10",
+      "PUCToDate": "2025-02-10"
+    },
+    "Documents": {
+      "RCDocument": "RC5678.pdf",
+      "FitnessDocument": "fitness_doc_2.pdf",
+      "RoadTaxDocument": "road_tax_2.pdf",
+      "NationalPermitDocument": "national_permit_2.pdf",
+      "FiveYearPermitDocument": "five_year_permit_2.pdf",
+      "InsuranceCopy": "insurance_copy_2.pdf",
+      "PUCDocument": "puc_document_2.pdf",
+      "DrivingLicense": "license_copy_2.pdf"
+    },
+
+    "Battery": {
+      "BatteryBillNo": "BAT67890",
+      "BatteryBillDate": "2024-02-10",
+      "BatteryDealerName": "PowerBatteries",
+      "BatteryMakers": "Amaron",
+      "BatteryWarranty": "3 years",
+      "BatteryWarrantyExpiryDate": "2027-02-10"
+    },
+    "Tyre": [
+      {
+        "TyreBillNo": "TYR67890",
+        "TyreBillDate": "2024-02-10",
+        "TyreDealerName": "TyreKing",
+        "TyreRate": "1500",
+        "TyreMakers": "Bridgestone",
+        "TyreWarranty": "4 years",
+        "TyreNo": "987654321",
+        "TyreModel": "New",
+        "TyreType": "New",
+        "TyreFrontRear": "Rear",
+        "TyreFittedOnDate": "2024-02-11",
+        "TyreRemovedOnDate": "2025-02-11",
+        "TyreStartKm": 0,
+        "TyreEndKm": 25000
+      }
+    ]
+  },
+  {
+    "Owner": {
+      "Number": "1122334455",
+      "OwnerName": "Michael Johnson",
+      "OwnerMobileNo": "1234567890",
+      "OwnerPANNo": "LMNOP1234Q",
+      "OwnerAddress": "4567 Maple Ave, Detroit, MI"
+    },
+    "Vehicle": {
+      "Make": "Ford",
+      "BodyType": "Truck",
+      "EngineNo": "DEF456GHJ",
+      "TruckNo": "DEF456GHJ",
+      "ChassisNo": "JKL3456789012",
+      "Model": "F-150",
+      "YearOfManufacture": "2021",
+      "VehicleType": "Owned"
+    },
+    "Fitness": {
+      "FitnessNo": "F789012",
+      "FitnessDate": "2024-02-01",
+      "FitnessExpiryDate": "2026-02-01"
+    },
+    "RoadTax": {
+      "StartDate": "2024-02-01",
+      "EndDate": "2025-02-01"
+    },
+    "Permit": {
+      "PermitNo": "P98765",
+      "ValidUpto": "2026-02-01"
+    },
+    "FiveYearPermit": {
+      "PermitNo": "FP54321",
+      "ValidUpto": "2029-02-01"
+    },
+    "Insurance": {
+      "PolicyNo": "INS54321",
+      "ValidFrom": "2024-02-01",
+      "ValidUpto": "2025-02-01"
+    },
+    "PUC": {
+      "PUCNo": "PUC543",
+      "PUCFromDate": "2024-02-01",
+      "PUCToDate": "2025-02-01"
+    },
+    "Documents": {
+      "RCDocument": "RC9876.pdf",
+      "FitnessDocument": "fitness_doc_3.pdf",
+      "RoadTaxDocument": "road_tax_3.pdf",
+      "NationalPermitDocument": "national_permit_3.pdf",
+      "FiveYearPermitDocument": "five_year_permit_3.pdf",
+      "InsuranceCopy": "insurance_copy_3.pdf",
+      "PUCDocument": "puc_document_3.pdf",
+      "DrivingLicense": "license_copy_3.pdf"
+    },
+    "Tyre": [
+      {
+        "TyreBillNo": "TYR54321",
+        "TyreBillDate": "2024-02-01",
+        "TyreDealerName": "WheelWorks",
+        "TyreRate": "2000",
+        "TyreMakers": "Goodyear",
+        "TyreWarranty": "5 years",
+        "TyreNo": "1122334455",
+        "TyreModel": "New",
+        "TyreType": "New",
+        "TyreFrontRear": "Front",
+        "TyreFittedOnDate": "2024-02-02",
+        "TyreRemovedOnDate": "2025-02-02",
+        "TyreStartKm": 0,
+        "TyreEndKm": 30000
+      }
+    ],
+    "Battery": {
+      "BatteryBillNo": "BAT54321",
+      "BatteryBillDate": "2024-02-01",
+      "BatteryDealerName": "PowerTech",
+      "BatteryMakers": "Bosch",
+      "BatteryWarranty": "2 years",
+      "BatteryWarrantyExpiryDate": "2026-02-01"
+    }
+  },
+  {
+    "Owner": {
+      "Number": "5566778899",
+      "OwnerName": "Sarah Lee",
+      "OwnerMobileNo": "9876543212",
+      "OwnerPANNo": "QRSTU9876Z",
+      "OwnerAddress": "7890 Pine Rd, Austin, TX"
+    },
+    "Vehicle": {
+      "Make": "Nissan",
+      "BodyType": "Hatchback",
+      "EngineNo": "LMN654321",
+      "TruckNo": "LMN654321",
+      "ChassisNo": "OPQ1234567890",
+      "Model": "Micra",
+      "YearOfManufacture": "2023",
+      "VehicleType": "Hired"
+    },
+    "Fitness": {
+      "FitnessNo": "F123789",
+      "FitnessDate": "2024-02-05",
+      "FitnessExpiryDate": "2026-02-05"
+    },
+    "RoadTax": {
+      "StartDate": "2024-02-05",
+      "EndDate": "2025-02-05"
+    },
+    "Permit": {
+      "PermitNo": "P54321",
+      "ValidUpto": "2026-02-05"
+    },
+    "FiveYearPermit": {
+      "PermitNo": "FP78901",
+      "ValidUpto": "2029-02-05"
+    },
+    "Insurance": {
+      "PolicyNo": "INS78901",
+      "ValidFrom": "2024-02-05",
+      "ValidUpto": "2025-02-05"
+    },
+    "PUC": {
+      "PUCNo": "PUC789",
+      "PUCFromDate": "2024-02-05",
+      "PUCToDate": "2025-02-05"
+    },
+    "Documents": {
+      "RCDocument": "RC7890.pdf",
+      "FitnessDocument": "fitness_doc_4.pdf",
+      "RoadTaxDocument": "road_tax_4.pdf",
+      "NationalPermitDocument": "national_permit_4.pdf",
+      "FiveYearPermitDocument": "five_year_permit_4.pdf",
+      "InsuranceCopy": "insurance_copy_4.pdf",
+      "PUCDocument": "puc_document_4.pdf",
+      "DrivingLicense": "license_copy_4.pdf"
+    }
+  },
+  {
+    "Owner": {
+      "Number": "6677889900",
+      "OwnerName": "David Brown",
+      "OwnerMobileNo": "1122334455",
+      "OwnerPANNo": "UVWXZ9876A",
+      "OwnerAddress": "9101 Birch Blvd, Phoenix, AZ"
+    },
+    "Vehicle": {
+      "Make": "Chevrolet",
+      "BodyType": "SUV",
+      "EngineNo": "LMN987654",
+      "TruckNo": "LMN987654",
+      "ChassisNo": "STU9876543210",
+      "Model": "Equinox",
+      "YearOfManufacture": "2023",
+      "VehicleType": "Hired"
+    },
+    "Fitness": {
+      "FitnessNo": "F567890",
+      "FitnessDate": "2024-01-10",
+      "FitnessExpiryDate": "2026-01-10"
+    },
+    "RoadTax": {
+      "StartDate": "2024-01-01",
+      "EndDate": "2025-01-01"
+    },
+    "Permit": {
+      "PermitNo": "P34567",
+      "ValidUpto": "2026-01-10"
+    },
+    "FiveYearPermit": {
+      "PermitNo": "FP23456",
+      "ValidUpto": "2029-01-10"
+    },
+    "Insurance": {
+      "PolicyNo": "INS23456",
+      "ValidFrom": "2024-01-01",
+      "ValidUpto": "2025-01-01"
+    },
+    "PUC": {
+      "PUCNo": "PUC234",
+      "PUCFromDate": "2024-01-10",
+      "PUCToDate": "2025-01-10"
+    },
+    "Documents": {
+      "RCDocument": "RC2345.pdf",
+      "FitnessDocument": "fitness_doc_5.pdf",
+      "RoadTaxDocument": "road_tax_5.pdf",
+      "NationalPermitDocument": "national_permit_5.pdf",
+      "FiveYearPermitDocument": "five_year_permit_5.pdf",
+      "InsuranceCopy": "insurance_copy_5.pdf",
+      "PUCDocument": "puc_document_5.pdf",
+      "DrivingLicense": "license_copy_5.pdf"
+    }
+  }
+]

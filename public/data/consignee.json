@@ -1,0 +1,127 @@
+[
+  {
+    "id": 1,
+    "businessName": "Piramal",
+    "firstName": "John",
+    "lastName": "Doe",
+    "address": {
+      "street": "123 Main St",
+      "city": "Metropolis",
+      "state": "New York",
+      "zip": "10001"
+    },
+    "gstin": "NYGSTIN12345",
+    "contact": {
+      "email": "john.doe@example.com",
+      "phone": "123-456-7890"
+    },
+    "bankDetails": {
+      "accountNumber": "9876543210",
+      "ifscCode": "NYB0001234",
+      "bankName": "New York Bank"
+    },
+    "Documents": {
+      "Documents": "id_proof.pdf"
+    }
+  },
+  {
+    "id": 2,
+    "businessName": "mankind",
+    "firstName": "Alice",
+    "lastName": "Smith",
+    "address": {
+      "street": "456 Elm St",
+      "city": "Gotham",
+      "state": "California",
+      "zip": "90001"
+    },
+    "gstin": "CAGSTIN98765",
+    "contact": {
+      "email": "alice.smith@example.com",
+      "phone": "234-567-8901"
+    },
+    "bankDetails": {
+      "accountNumber": "1234567890",
+      "ifscCode": "CAB0002345",
+      "bankName": "California Bank"
+    },
+    "Documents": {
+      "Documents": "address_proof.pdf"
+    }
+  },
+  {
+    "id": 3,
+    "businessName": "Asha Confectionary",
+    "firstName": "Bob",
+    "lastName": "Johnson",
+    "address": {
+      "street": "789 Pine St",
+      "city": "Sunnydale",
+      "state": "Texas",
+      "zip": "75001"
+    },
+    "gstin": "TXGSTIN54321",
+    "contact": {
+      "email": "bob.johnson@example.com",
+      "phone": "345-678-9012"
+    },
+    "bankDetails": {
+      "accountNumber": "2345678901",
+      "ifscCode": "TXB0003456",
+      "bankName": "Texas Bank"
+    },
+    "Documents": {
+      "Documents": "pan_card.pdf"
+    }
+  },
+  {
+    "id": 4,
+    "businessName": "Pinku Confectionary",
+    "firstName": "Charlie",
+    "lastName": "Williams",
+    "address": {
+      "street": "101 Maple St",
+      "city": "Lakeside",
+      "state": "Florida",
+      "zip": "33001"
+    },
+    "gstin": "FLGSTIN24680",
+    "contact": {
+      "email": "charlie.williams@example.com",
+      "phone": "456-789-0123"
+    },
+    "bankDetails": {
+      "accountNumber": "3456789012",
+      "ifscCode": "FLB0004567",
+      "bankName": "Florida Bank"
+    },
+    "Documents": {
+      "Documents": "bank_statement.pdf"
+    }
+  },
+  {
+    "id": 5,
+    "businessName": "DPFC",
+    "firstName": "David",
+    "lastName": "Brown",
+    "address": {
+      "street": "202 Oak St",
+      "city": "Greenwood",
+      "state": "Washington",
+      "zip": "98001"
+    },
+    "gstin": "WAGSTIN13579",
+    "contact": {
+      "email": "david.brown@example.com",
+      "phone": "567-890-1234"
+    },
+    "bankDetails": {
+      "accountNumber": "4567890123",
+      "ifscCode": "WAB0005678",
+      "bankName": "Washington Bank"
+    },
+    "Documents": {
+      "Documents": "gst_certificate.pdf"
+    }
+  }
+]

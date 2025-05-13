@@ -1,0 +1,112 @@
+[
+  {
+    "id": "1",
+    "branchName": "Central Branch",
+    "billtyNumberFrom": "1001",
+    "billtyNumberTo": "1050",
+    "address": {
+      "street": "123 Central St",
+      "city": "Metropolis",
+      "state": "New York",
+      "postalCode": "10001",
+      "country": "USA"
+    },
+    "contact": {
+      "phone": "123-456-7890",
+      "email": "central@company.com"
+    },
+    "branchManager": {
+      "managerName": "John Doe",
+      "managerContact": "john.doe@company.com",
+      "managerPhone": "123-456-7891"
+    }
+  },
+  {
+    "id": "2",
+    "branchName": "East Branch",
+    "billtyNumberFrom": "2001",
+    "billtyNumberTo": "2050",
+    "address": {
+      "street": "456 East Ave",
+      "city": "Gotham",
+      "state": "California",
+      "postalCode": "90001",
+      "country": "USA"
+    },
+    "contact": {
+      "phone": "234-567-8901",
+      "email": "east@company.com"
+    },
+    "branchManager": {
+      "managerName": "Jane Smith",
+      "managerContact": "jane.smith@company.com",
+      "managerPhone": "234-567-8902"
+    }
+  },
+  {
+    "id": "3",
+    "branchName": "West Branch",
+    "billtyNumberFrom": "3001",
+    "billtyNumberTo": "3050",
+    "address": {
+      "street": "789 West Rd",
+      "city": "Sunnydale",
+      "state": "Texas",
+      "postalCode": "75001",
+      "country": "USA"
+    },
+    "contact": {
+      "phone": "345-678-9012",
+      "email": "west@company.com"
+    },
+    "branchManager": {
+      "managerName": "Alice Johnson",
+      "managerContact": "alice.johnson@company.com",
+      "managerPhone": "345-678-9013"
+    }
+  },
+  {
+    "id": "4",
+    "branchName": "South Branch",
+    "billtyNumberFrom": "4001",
+    "billtyNumberTo": "4050",
+    "address": {
+      "street": "101 South Blvd",
+      "city": "Lakeside",
+      "state": "Florida",
+      "postalCode": "33001",
+      "country": "USA"
+    },
+    "contact": {
+      "phone": "456-789-0123",
+      "email": "south@company.com"
+    },
+    "branchManager": {
+      "managerName": "Mark Brown",
+      "managerContact": "mark.brown@company.com",
+      "managerPhone": "456-789-0124"
+    }
+  },
+  {
+    "id": "5",
+    "branchName": "North Branch",
+    "billtyNumberFrom": "5001",
+    "billtyNumberTo": "5050",
+    "address": {
+      "street": "202 North Ln",
+      "city": "Greenwood",
+      "state": "Washington",
+      "postalCode": "98001",
+      "country": "USA"
+    },
+    "contact": {
+      "phone": "567-890-1234",
+      "email": "north@company.com"
+    },
+    "branchManager": {
+      "managerName": "Emma White",
+      "managerContact": "emma.white@company.com",
+      "managerPhone": "567-890-1235"
+    }
+  }
+]

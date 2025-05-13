@@ -1,0 +1,91 @@
+[
+  {
+    "id": "1",
+    "biltyNo": "BIL12345",
+    "biltyDate": "2025-01-10",
+    "natureOfGoods": "Electronics",
+    "items": [
+      {
+        "name": "Laptop",
+        "quantity": 10
+      }
+    ],
+    "weight": "500",
+    "shipmentDetails": {
+      "vehicleNo": "MH12AB1234",
+      "expDelDate": "2025-01-15"
+    }
+  },
+  {
+    "id": "2",
+    "biltyNo": "BIL12346",
+    "biltyDate": "2025-01-11",
+    "natureOfGoods": "Furniture",
+    "items": [
+      {
+        "name": "Chairs",
+        "quantity": 20
+      },
+      {
+        "name": "Tables",
+        "quantity": 10
+      }
+    ],
+    "weight": "1000",
+    "shipmentDetails": {
+      "vehicleNo": "MH12CD5678",
+      "expDelDate": "2025-01-16"
+    }
+  },
+  {
+    "id": "3",
+    "biltyNo": "BIL12347",
+    "biltyDate": "2025-01-12",
+    "natureOfGoods": "Clothing",
+    "items": [
+      {
+        "name": "Shirts",
+        "quantity": 50
+      }
+    ],
+    "weight": "200",
+    "shipmentDetails": {
+      "vehicleNo": "MH12EF9012",
+      "expDelDate": "2025-01-17"
+    }
+  },
+  {
+    "id": "4",
+    "biltyNo": "BIL12348",
+    "biltyDate": "2025-01-13",
+    "natureOfGoods": "Books",
+    "items": [
+      {
+        "name": "Books",
+        "quantity": 100
+      }
+    ],
+    "weight": "300",
+    "shipmentDetails": {
+      "vehicleNo": "MH12GH3456",
+      "expDelDate": "2025-01-18"
+    }
+  },
+  {
+    "id": "5",
+    "biltyNo": "BIL12349",
+    "biltyDate": "2025-01-14",
+    "natureOfGoods": "Appliances",
+    "items": [
+      {
+        "name": "Refrigerators",
+        "quantity": 5
+      }
+    ],
+    "weight": "1500",
+    "shipmentDetails": {
+      "vehicleNo": "MH12IJ7890",
+      "expDelDate": "2025-01-19"
+    }
+  }
+]

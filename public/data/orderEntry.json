@@ -1,0 +1,57 @@
+[
+  {
+    "id": "ORD001",
+    "partyName": "John's Logistics",
+    "fromStation": "Mumbai",
+    "toStation": "Delhi",
+    "fromDate": "2025-02-10",
+    "toDate": "2025-02-15",
+    "vehicleRequired": "Yes",
+    "vehicleType": "Truck",
+    "orderClose": false
+  },
+  {
+    "id": "ORD002",
+    "partyName": "Tech Movers",
+    "fromStation": "Bangalore",
+    "toStation": "Chennai",
+    "fromDate": "2025-02-12",
+    "toDate": "2025-02-18",
+    "vehicleRequired": "No",
+    "vehicleType": "",
+    "orderClose": true
+  },
+  {
+    "id": "ORD003",
+    "partyName": "Fast Transport",
+    "fromStation": "Hyderabad",
+    "toStation": "Pune",
+    "fromDate": "2025-02-14",
+    "toDate": "2025-02-20",
+    "vehicleRequired": "Yes",
+    "vehicleType": "Van",
+    "orderClose": false
+  },
+  {
+    "id": "ORD004",
+    "partyName": "Global Shippers",
+    "fromStation": "Kolkata",
+    "toStation": "Ahmedabad",
+    "fromDate": "2025-02-16",
+    "toDate": "2025-02-21",
+    "vehicleRequired": "Yes",
+    "vehicleType": "Container",
+    "orderClose": true
+  },
+  {
+    "id": "ORD005",
+    "partyName": "Easy Freight",
+    "fromStation": "Jaipur",
+    "toStation": "Lucknow",
+    "fromDate": "2025-02-18",
+    "toDate": "2025-02-22",
+    "vehicleRequired": "No",
+    "vehicleType": "",
+    "orderClose": false
+  }
+]

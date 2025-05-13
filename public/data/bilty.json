@@ -1,0 +1,209 @@
+[
+  {
+    "id": 1,
+    "orderId": "ORD001",
+    "billtyNumber": "BLT2024001",
+    "vehicleNumber": "HR260027",
+    "biltyDate": "2024-02-04",
+    "fromStation": "Delhi",
+    "toStation": "Ahmedabad",
+    "status": "Created",
+    "consignor": "Acme Manufacturing",
+    "consignee": "Titan Distribution",
+    "natureOfGoods": "Medical",
+    "packageDetails": [
+      {
+        "package": "Carton",
+        "description": "Electronic Components",
+        "actualWeight": 150.5,
+        "chargedWeight": 160,
+        "quantity": 25
+      },
+      {
+        "package": "Wooden Crate",
+        "description": "Machinery Parts",
+        "actualWeight": 350.2,
+        "chargedWeight": 375,
+        "quantity": 10
+      }
+    ],
+    "freightDetails": {
+      "baseFreight": 15000,
+      "localCollection": 1500,
+      "labour": 750,
+      "haltingCharges": 500,
+      "totalFreight": 17750
+    },
+    "taxDetails": {
+      "cgst": 6,
+      "sgst": 6,
+      "igst": 0,
+      "gstPayableBy": "Consignor"
+    }
+  },
+  {
+    "id": 2,
+    "orderId": "ORD002",
+    "billtyNumber": "BLT2024002",
+    "vehicleNumber": "HR260027",
+    "biltyDate": "2024-02-05",
+    "fromStation": "Mumbai",
+    "toStation": "Pune",
+    "status": "Processed",
+    "consignor": "Global Electronics",
+    "consignee": "Reliance Retail",
+    "natureOfGoods": "Medical",
+
+    "packageDetails": [
+      {
+        "package": "Plastic Pallet",
+        "description": "Consumer Electronics",
+        "actualWeight": 275.3,
+        "chargedWeight": 300,
+        "quantity": 15
+      },
+      {
+        "package": "Metal Container",
+        "description": "Electrical Goods",
+        "actualWeight": 200.7,
+        "chargedWeight": 225,
+        "quantity": 8
+      }
+    ],
+    "freightDetails": {
+      "baseFreight": 22000,
+      "localCollection": 2200,
+      "labour": 1100,
+      "haltingCharges": 750,
+      "totalFreight": 26050
+    },
+    "taxDetails": {
+      "cgst": 6,
+      "sgst": 6,
+      "igst": 0,
+      "gstPayableBy": "Consignee"
+    }
+  },
+  {
+    "id": 3,
+    "orderId": "ORD003",
+    "billtyNumber": "BLT2024003",
+    "vehicleNumber": "HR260027",
+    "biltyDate": "2024-02-06",
+    "fromStation": "Surat",
+    "toStation": "Delhi",
+    "status": "Completed",
+    "consignor": "Sunrise Textiles",
+    "consignee": "Big Bazaar Logistics",
+    "natureOfGoods": "Medical",
+
+    "packageDetails": [
+      {
+        "package": "Fabric Roll",
+        "description": "Textile Fabric",
+        "actualWeight": 98.5,
+        "chargedWeight": 110,
+        "quantity": 40
+      }
+    ],
+    "freightDetails": {
+      "baseFreight": 9800,
+      "localCollection": 980,
+      "labour": 490,
+      "haltingCharges": 250,
+      "totalFreight": 11520
+    },
+    "taxDetails": {
+      "cgst": 6,
+      "sgst": 6,
+      "igst": 0,
+      "gstPayableBy": "Transporter"
+    }
+  },
+  {
+    "id": 4,
+    "orderId": "ORD004",
+    "billtyNumber": "BLT2024004",
+    "vehicleNumber": "HR260027",
+    "biltyDate": "2024-02-07",
+    "fromStation": "Bangalore",
+    "toStation": "Hyderabad",
+    "status": "Created",
+    "consignor": "Metro Pharmaceuticals",
+    "consignee": "Amazon Fulfillment",
+    "natureOfGoods": "Medical",
+
+    "packageDetails": [
+      {
+        "package": "Sealed Box",
+        "description": "Medical Supplies",
+        "actualWeight": 275.8,
+        "chargedWeight": 300,
+        "quantity": 20
+      },
+      {
+        "package": "Refrigerated Container",
+        "description": "Pharmaceutical Products",
+        "actualWeight": 350.6,
+        "chargedWeight": 375,
+        "quantity": 5
+      }
+    ],
+    "freightDetails": {
+      "baseFreight": 27500,
+      "localCollection": 2750,
+      "labour": 1375,
+      "haltingCharges": 1000,
+      "totalFreight": 32625
+    },
+    "taxDetails": {
+      "cgst": 6,
+      "sgst": 6,
+      "igst": 0,
+      "gstPayableBy": "Consignor"
+    }
+  },
+  {
+    "id": 5,
+    "orderId": "ORD005",
+    "billtyNumber": "BLT2024005",
+    "vehicleNumber": "HR260027",
+    "biltyDate": "2024-02-08",
+    "fromStation": "Chennai",
+    "toStation": "Kolkata",
+    "status": "Processed",
+    "consignor": "Continental Traders",
+    "consignee": "Flipkart Warehousing",
+    "natureOfGoods": "Medical",
+
+    "packageDetails": [
+      {
+        "package": "Cardboard Box",
+        "description": "Consumer Goods",
+        "actualWeight": 120.3,
+        "chargedWeight": 135,
+        "quantity": 30
+      },
+      {
+        "package": "Wooden Box",
+        "description": "Industrial Equipment",
+        "actualWeight": 250.5,
+        "chargedWeight": 275,
+        "quantity": 12
+      }
+    ],
+    "freightDetails": {
+      "baseFreight": 12000,
+      "localCollection": 1200,
+      "labour": 600,
+      "haltingCharges": 400,
+      "totalFreight": 14200
+    },
+    "taxDetails": {
+      "cgst": 6,
+      "sgst": 6,
+      "igst": 0,
+      "gstPayableBy": "Consignee"
+    }
+  }
+]

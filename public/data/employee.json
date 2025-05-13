@@ -1,0 +1,232 @@
+[
+  {
+    "personal": {
+      "firstName": "John",
+      "lastName": "Doe",
+      "dob": "1985-06-15",
+      "gender": "Male"
+    },
+    "contact": {
+      "phone": "123-456-7890",
+      "email": "john.doe@example.com"
+    },
+    "address": {
+      "street": "123 Main St",
+      "city": "Metropolis",
+      "state": "New York",
+      "postalCode": "10001",
+      "country": "USA"
+    },
+    "position": {
+      "title": "Software Engineer",
+      "department": "Engineering",
+      "hireDate": "2015-03-01",
+      "salary": "90000",
+      "workShift": "9 AM - 5 PM",
+      "licenseDetails": {
+        "licenseNumber": "AB123456",
+        "licenseType": "Driver's License",
+        "issueDate": "2010-08-20",
+        "expiryDate": "2025-08-20"
+      }
+    },
+    "emergencyContact": {
+      "name": "Jane Doe",
+      "relation": "Spouse",
+      "phone": "987-654-3210",
+      "email": "jane.doe@example.com"
+    },
+    "status": {
+      "employmentStatus": "Active",
+      "lastChecked": "2025-02-04"
+    },
+    "performance": "Excellent",
+    "Documents": {
+      "Documents": "resume.pdf"
+    }
+  },
+  {
+    "personal": {
+      "firstName": "Alice",
+      "lastName": "Smith",
+      "dob": "1990-09-22",
+      "gender": "Female"
+    },
+    "contact": {
+      "phone": "234-567-8901",
+      "email": "alice.smith@example.com"
+    },
+    "address": {
+      "street": "456 Elm St",
+      "city": "Gotham",
+      "state": "California",
+      "postalCode": "90001",
+      "country": "USA"
+    },
+    "position": {
+      "title": "Project Manager",
+      "department": "Operations",
+      "hireDate": "2017-07-01",
+      "salary": "105000",
+      "workShift": "8 AM - 4 PM",
+      "licenseDetails": {
+        "licenseNumber": "CD987654",
+        "licenseType": "Driver's License",
+        "issueDate": "2012-11-10",
+        "expiryDate": "2027-11-10"
+      }
+    },
+    "emergencyContact": {
+      "name": "Bob Smith",
+      "relation": "Brother",
+      "phone": "543-210-9876",
+      "email": "bob.smith@example.com"
+    },
+    "status": {
+      "employmentStatus": "Active",
+      "lastChecked": "2025-02-04"
+    },
+    "performance": "Good",
+    "Documents": {
+      "Documents": "cover_letter.pdf"
+    }
+  },
+  {
+    "personal": {
+      "firstName": "Bob",
+      "lastName": "Johnson",
+      "dob": "1982-12-01",
+      "gender": "Male"
+    },
+    "contact": {
+      "phone": "345-678-9012",
+      "email": "bob.johnson@example.com"
+    },
+    "address": {
+      "street": "789 Pine St",
+      "city": "Sunnydale",
+      "state": "Texas",
+      "postalCode": "75001",
+      "country": "USA"
+    },
+    "position": {
+      "title": "Marketing Director",
+      "department": "Marketing",
+      "hireDate": "2010-05-15",
+      "salary": "120000",
+      "workShift": "10 AM - 6 PM",
+      "licenseDetails": {
+        "licenseNumber": "EF54321",
+        "licenseType": "Driver's License",
+        "issueDate": "2005-02-20",
+        "expiryDate": "2025-02-20"
+      }
+    },
+    "emergencyContact": {
+      "name": "Sara Johnson",
+      "relation": "Wife",
+      "phone": "654-321-4321",
+      "email": "sara.johnson@example.com"
+    },
+    "status": {
+      "employmentStatus": "Active",
+      "lastChecked": "2025-02-04"
+    },
+    "performance": "Very Good",
+    "Documents": {
+      "Documents": "portfolio.pdf"
+    }
+  },
+  {
+    "personal": {
+      "firstName": "Charlie",
+      "lastName": "Williams",
+      "dob": "1995-03-10",
+      "gender": "Non-Binary"
+    },
+    "contact": {
+      "phone": "456-789-0123",
+      "email": "charlie.williams@example.com"
+    },
+    "address": {
+      "street": "101 Maple St",
+      "city": "Lakeside",
+      "state": "Florida",
+      "postalCode": "33001",
+      "country": "USA"
+    },
+    "position": {
+      "title": "Graphic Designer",
+      "department": "Design",
+      "hireDate": "2020-01-01",
+      "salary": "65000",
+      "workShift": "Flexible",
+      "licenseDetails": {
+        "licenseNumber": "GH123456",
+        "licenseType": "Driver's License",
+        "issueDate": "2014-05-05",
+        "expiryDate": "2024-05-05"
+      }
+    },
+    "emergencyContact": {
+      "name": "Alex Williams",
+      "relation": "Sibling",
+      "phone": "765-432-1234",
+      "email": "alex.williams@example.com"
+    },
+    "status": {
+      "employmentStatus": "Active",
+      "lastChecked": "2025-02-04"
+    },
+    "performance": "Good",
+    "Documents": {
+      "Documents": "design_work.pdf"
+    }
+  },
+  {
+    "personal": {
+      "firstName": "David",
+      "lastName": "Brown",
+      "dob": "1992-07-18",
+      "gender": "Male"
+    },
+    "contact": {
+      "phone": "567-890-1234",
+      "email": "david.brown@example.com"
+    },
+    "address": {
+      "street": "202 Oak St",
+      "city": "Greenwood",
+      "state": "Washington",
+      "postalCode": "98001",
+      "country": "USA"
+    },
+    "position": {
+      "title": "Sales Executive",
+      "department": "Sales",
+      "hireDate": "2018-09-20",
+      "salary": "70000",
+      "workShift": "9 AM - 5 PM",
+      "licenseDetails": {
+        "licenseNumber": "IJ678910",
+        "licenseType": "Driver's License",
+        "issueDate": "2013-07-22",
+        "expiryDate": "2028-07-22"
+      }
+    },
+    "emergencyContact": {
+      "name": "Emily Brown",
+      "relation": "Wife",
+      "phone": "876-543-2109",
+      "email": "emily.brown@example.com"
+    },
+    "status": {
+      "employmentStatus": "Active",
+      "lastChecked": "2025-02-04"
+    },
+    "performance": "Excellent",
+    "Documents": {
+      "Documents": "sales_report.pdf"
+    }
+  }
+]

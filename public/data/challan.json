@@ -1,0 +1,112 @@
+[
+  {
+    "id": "1",
+    "biltyNo": "BLT001",
+    "biltyDate": "2023-10-01",
+    "natureOfGoods": "Electronics",
+    "items": [
+      { "name": "Laptop", "quantity": 5 },
+      { "name": "Smartphone", "quantity": 10 }
+    ],
+    "weight": "500 kg",
+    "companyDetails": {
+      "name": "Tech Solutions Inc."
+    },
+    "shipmentDetails": {
+      "vehicleNo": "MH12AB1234",
+      "expDelDate": "2023-10-10"
+    },
+    "transportDetails": {
+      "from": "Mumbai",
+      "to": "Delhi"
+    }
+  },
+  {
+    "id": "2",
+    "biltyNo": "BLT002",
+    "biltyDate": "2023-10-02",
+    "natureOfGoods": "Furniture",
+    "items": [
+      { "name": "Chair", "quantity": 20 },
+      { "name": "Table", "quantity": 10 }
+    ],
+    "weight": "300 kg",
+    "companyDetails": {
+      "name": "Home Decor Ltd."
+    },
+    "shipmentDetails": {
+      "vehicleNo": "GJ05CD5678",
+      "expDelDate": "2023-10-12"
+    },
+    "transportDetails": {
+      "from": "Ahmedabad",
+      "to": "Jaipur"
+    }
+  },
+  {
+    "id": "3",
+    "biltyNo": "BLT003",
+    "biltyDate": "2023-10-03",
+    "natureOfGoods": "Clothing",
+    "items": [
+      { "name": "T-Shirt", "quantity": 50 },
+      { "name": "Jeans", "quantity": 30 }
+    ],
+    "weight": "200 kg",
+    "companyDetails": {
+      "name": "Fashion Trends Co."
+    },
+    "shipmentDetails": {
+      "vehicleNo": "KA09EF9101",
+      "expDelDate": "2023-10-15"
+    },
+    "transportDetails": {
+      "from": "Bangalore",
+      "to": "Chennai"
+    }
+  },
+  {
+    "id": "4",
+    "biltyNo": "BLT004",
+    "biltyDate": "2023-10-04",
+    "natureOfGoods": "Books",
+    "items": [
+      { "name": "Novel", "quantity": 100 },
+      { "name": "Textbook", "quantity": 50 }
+    ],
+    "weight": "150 kg",
+    "companyDetails": {
+      "name": "Book World Ltd."
+    },
+    "shipmentDetails": {
+      "vehicleNo": "TN07GH1122",
+      "expDelDate": "2023-10-18"
+    },
+    "transportDetails": {
+      "from": "Chennai",
+      "to": "Hyderabad"
+    }
+  },
+  {
+    "id": "5",
+    "biltyNo": "BLT005",
+    "biltyDate": "2023-10-05",
+    "natureOfGoods": "Toys",
+    "items": [
+      { "name": "Action Figure", "quantity": 40 },
+      { "name": "Puzzle", "quantity": 25 }
+    ],
+    "weight": "100 kg",
+    "companyDetails": {
+      "name": "Toyland Inc."
+    },
+    "shipmentDetails": {
+      "vehicleNo": "DL02IJ3344",
+      "expDelDate": "2023-10-20"
+    },
+    "transportDetails": {
+      "from": "Delhi",
+      "to": "Lucknow"
+    }
+  }
+]

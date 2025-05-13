@@ -1,0 +1,197 @@
+[
+  {
+    "firm": {
+      "firmName": "Tech Innovations",
+      "firmType": "Private Limited",
+      "firmPANNumber": "ABC1234567D",
+      "gstin": "19ABCDE1234F2Z6"
+    },
+    "firmAddress": {
+      "street": "123 Tech Park",
+      "city": "Bangalore",
+      "state": "Karnataka",
+      "zip": "560100"
+    },
+    "owner": {
+      "OwnerFirstName": "Rajesh",
+      "adharNumber": "123456789012",
+      "OwnerLastName": "Kumar"
+    },
+    "ownerAddress": {
+      "street": "456 Residency Road",
+      "city": "Bangalore",
+      "state": "Karnataka",
+      "zip": "560001"
+    },
+    "contact": {
+      "email": "rajesh.kumar@techinnovations.com",
+      "phone": "9876543210"
+    },
+    "bankDetails": {
+      "accountNumber": "9876543210",
+      "ifscCode": "KARB0001234",
+      "bankName": "Karnataka Bank"
+    },
+    "Documents": {
+      "PANCard": "pancard_raj.pdf",
+      "AdharCard": "adharcard_raj.pdf",
+      "visitingCard": "visitingcard_raj.pdf"
+    }
+  },
+  {
+    "firm": {
+      "firmName": "Creative Solutions",
+      "firmType": "Partnership",
+      "firmPANNumber": "DEF1234567X",
+      "gstin": "29ABCDE9876G1Z7"
+    },
+    "firmAddress": {
+      "street": "789 Innovation Street",
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "zip": "400001"
+    },
+    "owner": {
+      "OwnerFirstName": "Priya",
+      "adharNumber": "234567890123",
+      "OwnerLastName": "Sharma"
+    },
+    "ownerAddress": {
+      "street": "101 Business Avenue",
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "zip": "400005"
+    },
+    "contact": {
+      "email": "priya.sharma@creativesolutions.com",
+      "phone": "8765432109"
+    },
+    "bankDetails": {
+      "accountNumber": "1234567890",
+      "ifscCode": "SYNB0001234",
+      "bankName": "Syndicate Bank"
+    },
+    "Documents": {
+      "PANCard": "pancard_priya.pdf",
+      "AdharCard": "adharcard_priya.pdf",
+      "visitingCard": "visitingcard_priya.pdf"
+    }
+  },
+  {
+    "firm": {
+      "firmName": "Green Earth Enterprises",
+      "firmType": "LLP",
+      "firmPANNumber": "GHI1234567K",
+      "gstin": "33ABCDE5678K1Z9"
+    },
+    "firmAddress": {
+      "street": "202 Green Lane",
+      "city": "Chennai",
+      "state": "Tamil Nadu",
+      "zip": "600100"
+    },
+    "owner": {
+      "OwnerFirstName": "Vishal",
+      "adharNumber": "345678901234",
+      "OwnerLastName": "Patel"
+    },
+    "ownerAddress": {
+      "street": "303 City Tower",
+      "city": "Chennai",
+      "state": "Tamil Nadu",
+      "zip": "600101"
+    },
+    "contact": {
+      "email": "vishal.patel@greenearth.com",
+      "phone": "7654321098"
+    },
+    "bankDetails": {
+      "accountNumber": "2345678901",
+      "ifscCode": "ICIC0002345",
+      "bankName": "ICICI Bank"
+    },
+    "Documents": {
+      "PANCard": "pancard_vishal.pdf",
+      "AdharCard": "adharcard_vishal.pdf",
+      "visitingCard": "visitingcard_vishal.pdf"
+    }
+  },
+  {
+    "firm": {
+      "firmName": "Digital Creations",
+      "firmType": "Sole Proprietorship",
+      "firmPANNumber": "JKL1234567P",
+      "gstin": "17ABCDE5678G3Z1"
+    },
+    "firmAddress": {
+      "street": "456 Digital Avenue",
+      "city": "Delhi",
+      "state": "Delhi",
+      "zip": "110001"
+    },
+    "owner": {
+      "OwnerFirstName": "Neha",
+      "adharNumber": "456789012345",
+      "OwnerLastName": "Verma"
+    },
+    "ownerAddress": {
+      "street": "789 Modern Road",
+      "city": "Delhi",
+      "state": "Delhi",
+      "zip": "110003"
+    },
+    "contact": {
+      "email": "neha.verma@digitalcreations.com",
+      "phone": "6543210987"
+    },
+    "bankDetails": {
+      "accountNumber": "3456789012",
+      "ifscCode": "HDFC0003456",
+      "bankName": "HDFC Bank"
+    },
+    "Documents": {
+      "PANCard": "pancard_neha.pdf",
+      "AdharCard": "adharcard_neha.pdf",
+      "visitingCard": "visitingcard_neha.pdf"
+    }
+  },
+  {
+    "firm": {
+      "firmName": "Global Insights",
+      "firmType": "Corporation",
+      "firmPANNumber": "MNO1234567Q",
+      "gstin": "10ABCDE1234F1Z8",
+      "address": {
+        "street": "321 Global Plaza",
+        "city": "Hyderabad",
+        "state": "Telangana",
+        "zip": "500001"
+      }
+    },
+    "owner": {
+      "OwnerFirstName": "Suresh",
+      "adharNumber": "567890123456",
+      "OwnerLastName": "Reddy",
+      "address": {
+        "street": "101 Cyber City",
+        "city": "Hyderabad",
+        "state": "Telangana",
+        "zip": "500002"
+      }
+    },
+    "contact": {
+      "email": "suresh.reddy@globalinsights.com",
+      "phone": "5432109876"
+    },
+    "bankDetails": {
+      "accountNumber": "4567890123",
+      "ifscCode": "SBIN0004567",
+      "bankName": "State Bank of India"
+    },
+    "Documents": {
+      "PANCard": "pancard_suresh.pdf",
+      "AdharCard": "adharcard_suresh.pdf",
+      "visitingCard": "visitingcard_suresh.pdf"
+    }
+  }
+]
