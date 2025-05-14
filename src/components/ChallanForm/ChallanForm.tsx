@@ -1,7 +1,20 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-
+import {
+  fetchChallanForm,
+  createChallanForm,
+  updateChallanForm,
+  deleteChallanForm,
+} from "@/lib/api/challanForm";
+import {
+  fetchBiltyEntry,
+  createBiltyEntry,
+  updateBiltyEntry,
+  deleteBiltyEntry,
+} from "@/lib/api/builtyEntry";
+import { fetchOrders } from "@/lib/api/orderForm";
+import { fetchConsignees } from "@/lib/api/consignee";
 interface Bilty {
   id?: string;
   billtyNumber?: string;
@@ -24,30 +37,19 @@ const ChallanForm: React.FC = () => {
   const [selectedData, setSelectedData] = useState<any[]>([]);
   const [isOpen, setIsOpen] = useState(false);
 
+  const headers =
+    data.length > 0
+      ? Object.keys(data[0]).filter((key) => !["_id", "__v"].includes(key))
+      : [];
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [
-          biltyResponse,
-          branchResponse,
-          orderEntryResponse,
-          consigneeResponse,
-          consignorResponse,
-          vehicleResponse,
-        ] = await Promise.all([
-          fetch("/data/bilty.json"),
-          fetch("/data/branch.json"),
-          fetch("/data/orderEntry.json"),
-          fetch("/data/consignee.json"),
-          fetch("/data/consignor.json"),
-          fetch("/data/vehicle.json"),
-        ]);
+        const [biltyResponse] = await Promise.all([fetchBiltyEntry()]);
 
         const biltyData = await biltyResponse.json();
-        const branchData = await branchResponse.json();
 
         setData(biltyData);
-        setBranchData(branchData);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -177,9 +179,7 @@ const ChallanForm: React.FC = () => {
                       <label className="font-semibold text-gray-700">
                         Branch:
                       </label>
-                      <select
-                        className="w-full rounded-lg border border-gray-300 p-3 text-sm transition-colors focus:ring-2 focus:ring-blue-500"
-                      >
+                      <select className="w-full rounded-lg border border-gray-300 p-3 text-sm transition-colors focus:ring-2 focus:ring-blue-500">
                         <option value="" disabled selected>
                           Select Branch
                         </option>

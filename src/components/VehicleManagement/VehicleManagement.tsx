@@ -3,7 +3,8 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import FormModal from "../FormModal/FormModal";
 import Modal from "../Modal/Modal";
-import { Plus, FileDown, Edit2, Trash2, Eye } from "lucide-react";
+import { Plus, FileDown, Edit2, Trash2, Eye ,Search} from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 import {
   fetchVehicles,
@@ -11,169 +12,168 @@ import {
   updateVehicles,
   deleteVehicles,
 } from "@/lib/api/vehicle";
-import { fetchBrokers } from "@/lib/api/broker";
+
+const ownData = {
+  Owner: {
+    Number: "",
+    OwnerName: "",
+    OwnerMobileNo: "",
+    OwnerPANNo: "",
+    OwnerAddress: "",
+  },
+
+  Vehicle: {
+    Make: "",
+    BodyType: "",
+    EngineNo: "",
+    ChassisNo: "",
+    Model: "",
+    YearOfManufacture: "",
+    VehicleType: "Owned",
+  },
+
+  Fitness: {
+    FitnessNo: "",
+    FitnessDate: "",
+    FitnessExpiryDate: "",
+  },
+
+  RoadTax: {
+    StartDate: "",
+    EndDate: "",
+  },
+
+  Permit: {
+    PermitNo: "",
+    ValidUpto: "",
+  },
+
+  FiveYearPermit: {
+    PermitNo: "",
+    ValidUpto: "",
+  },
+
+  Insurance: {
+    PolicyNo: "",
+    ValidFrom: "",
+    ValidUpto: "",
+  },
+
+  PUC: {
+    PUCNo: "",
+    PUCFromDate: "",
+    PUCToDate: "",
+  },
+
+  Documents: {
+    RCDocument: "",
+    FitnessDocument: "",
+    RoadTaxDocument: "",
+    NationalPermitDocument: "",
+    FiveYearPermitDocument: "",
+    InsuranceCopy: "",
+    PUCDocument: "",
+    DrivingLicense: "",
+  },
+
+  Battery: {
+    BatteryBillNo: "",
+    BatteryBillDate: "",
+    BatteryDealerName: "",
+    BatteryMakers: "",
+    BatteryWarranty: "",
+    BatteryWarrantyExpiryDate: "",
+  },
+
+  Tyre: [
+    {
+      TyreBillNo: "",
+      TyreBillDate: "",
+      TyreDealerName: "",
+      TyreRate: "",
+      TyreMakers: "",
+      TyreWarranty: "",
+      TyreNo: "",
+      TyreModel: "", // "New", "Old", or "Resole"
+      TyreType: "", // "New", "Old", or "Resole"
+      TyreFrontRear: "", // "Front" or "Rear"
+      TyreFittedOnDate: "",
+      TyreRemovedOnDate: "",
+      TyreStartKm: 0,
+      TyreEndKm: 0, // End Km (of Previous Tyre)
+    },
+  ],
+};
+
+const hiredData = {
+  Owner: {
+    Number: "",
+    OwnerName: "",
+    OwnerMobileNo: "",
+    OwnerPANNo: "",
+    OwnerAddress: "",
+  },
+
+  Vehicle: {
+    Make: "",
+    BodyType: "",
+    EngineNo: "",
+    ChassisNo: "",
+    Model: "",
+    YearOfManufacture: "",
+    VehicleType: "Owned",
+  },
+
+  Fitness: {
+    FitnessNo: "",
+    FitnessDate: "",
+    FitnessExpiryDate: "",
+  },
+
+  RoadTax: {
+    StartDate: "",
+    EndDate: "",
+  },
+
+  Permit: {
+    PermitNo: "",
+    ValidUpto: "",
+  },
+
+  FiveYearPermit: {
+    PermitNo: "",
+    ValidUpto: "",
+  },
+
+  Insurance: {
+    PolicyNo: "",
+    ValidFrom: "",
+    ValidUpto: "",
+  },
+
+  PUC: {
+    PUCNo: "",
+    PUCFromDate: "",
+    PUCToDate: "",
+  },
+
+  Documents: {
+    RCDocument: "",
+    FitnessDocument: "",
+    RoadTaxDocument: "",
+    NationalPermitDocument: "",
+    FiveYearPermitDocument: "",
+    InsuranceCopy: "",
+    PUCDocument: "",
+    DrivingLicense: "",
+  },
+};
+
+const defaultData = {
+  BodyType: "",
+};
 
 const VehicleManagement = () => {
-  const ownData = {
-    Owner: {
-      Number: "",
-      OwnerName: "",
-      OwnerMobileNo: "",
-      OwnerPANNo: "",
-      OwnerAddress: "",
-    },
-
-    Vehicle: {
-      Make: "",
-      BodyType: "",
-      EngineNo: "",
-      ChassisNo: "",
-      Model: "",
-      YearOfManufacture: "",
-      VehicleType: "Owned",
-    },
-
-    Fitness: {
-      FitnessNo: "",
-      FitnessDate: "",
-      FitnessExpiryDate: "",
-    },
-
-    RoadTax: {
-      StartDate: "",
-      EndDate: "",
-    },
-
-    Permit: {
-      PermitNo: "",
-      ValidUpto: "",
-    },
-
-    FiveYearPermit: {
-      PermitNo: "",
-      ValidUpto: "",
-    },
-
-    Insurance: {
-      PolicyNo: "",
-      ValidFrom: "",
-      ValidUpto: "",
-    },
-
-    PUC: {
-      PUCNo: "",
-      PUCFromDate: "",
-      PUCToDate: "",
-    },
-
-    Documents: {
-      RCDocument: "",
-      FitnessDocument: "",
-      RoadTaxDocument: "",
-      NationalPermitDocument: "",
-      FiveYearPermitDocument: "",
-      InsuranceCopy: "",
-      PUCDocument: "",
-      DrivingLicense: "",
-    },
-
-    Battery: {
-      BatteryBillNo: "",
-      BatteryBillDate: "",
-      BatteryDealerName: "",
-      BatteryMakers: "",
-      BatteryWarranty: "",
-      BatteryWarrantyExpiryDate: "",
-    },
-
-    Tyre: [
-      {
-        TyreBillNo: "",
-        TyreBillDate: "",
-        TyreDealerName: "",
-        TyreRate: "",
-        TyreMakers: "",
-        TyreWarranty: "",
-        TyreNo: "",
-        TyreModel: "", // "New", "Old", or "Resole"
-        TyreType: "", // "New", "Old", or "Resole"
-        TyreFrontRear: "", // "Front" or "Rear"
-        TyreFittedOnDate: "",
-        TyreRemovedOnDate: "",
-        TyreStartKm: 0,
-        TyreEndKm: 0, // End Km (of Previous Tyre)
-      },
-    ],
-  };
-
-  const hiredData = {
-    Owner: {
-      Number: "",
-      OwnerName: "",
-      OwnerMobileNo: "",
-      OwnerPANNo: "",
-      OwnerAddress: "",
-    },
-
-    Vehicle: {
-      Make: "",
-      BodyType: "",
-      EngineNo: "",
-      ChassisNo: "",
-      Model: "",
-      YearOfManufacture: "",
-      VehicleType: "Owned",
-    },
-
-    Fitness: {
-      FitnessNo: "",
-      FitnessDate: "",
-      FitnessExpiryDate: "",
-    },
-
-    RoadTax: {
-      StartDate: "",
-      EndDate: "",
-    },
-
-    Permit: {
-      PermitNo: "",
-      ValidUpto: "",
-    },
-
-    FiveYearPermit: {
-      PermitNo: "",
-      ValidUpto: "",
-    },
-
-    Insurance: {
-      PolicyNo: "",
-      ValidFrom: "",
-      ValidUpto: "",
-    },
-
-    PUC: {
-      PUCNo: "",
-      PUCFromDate: "",
-      PUCToDate: "",
-    },
-
-    Documents: {
-      RCDocument: "",
-      FitnessDocument: "",
-      RoadTaxDocument: "",
-      NationalPermitDocument: "",
-      FiveYearPermitDocument: "",
-      InsuranceCopy: "",
-      PUCDocument: "",
-      DrivingLicense: "",
-    },
-  };
-
-  const defaultData = {
-    BodyType: "",
-  };
-
   const downloadCSV = () => {
     const csvRows = [];
 
@@ -294,13 +294,16 @@ const VehicleManagement = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [Data, setData] = useState<any[]>([]);
   const [selectedData, setSelectedData] = useState<any>(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredData, setFilteredData] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetchVehicles();
-        console.log("🚀 ~ fetchData ~ response:", response);
         setData(response || []);
+        setFilteredData(response);
+
       } catch (error) {
         console.error("Error fetching vehicle data:", error);
       }
@@ -309,32 +312,56 @@ const VehicleManagement = () => {
     fetchData();
   }, []);
 
-  const handleSubmit = async (formData: any) => {
-    // Check if it's an update or a new entry
-    if (formData._id) {
-      // Update an existing broker
-      try {
-        const updated = await updateVehicles(formData._id, formData);
-        setData((prev) =>
-          prev.map((b) => (b._id === updated._id ? updated : b)),
-        );
-        setIsEditModalOpen(false); // Close the edit modal after update
-      } catch (error) {
-        console.error("Error updating broker:", error);
-        alert("Error updating broker. Please try again.");
+   useEffect(() => {
+      if (searchTerm.trim() === "") {
+        setFilteredData(Data);
+      } else {
+        const filtered = Data.filter((item) => {
+          const searchLower = searchTerm.toLowerCase();
+          return (
+            item.businessName?.toLowerCase().includes(searchLower) ||
+            item.contact?.email?.toLowerCase().includes(searchLower) ||
+            item.contact?.phone?.includes(searchTerm) ||
+            item.gstin?.toLowerCase().includes(searchLower)
+          );
+        });
+        setFilteredData(filtered);
       }
-    } else {
-      // Create a new broker
-      try {
+    }, [searchTerm, Data]);
+
+  const handleSubmit = async (formData: any) => {
+    try {
+      // Check if it's an update or a new entry
+      if (selectedData && isEditModalOpen) {
+        // Make sure we're using the correct ID for the update
+        const vehicleId = selectedData._id;
+        
+        // Ensure the ID is included in the form data
+        const dataToUpdate = { ...formData, _id: vehicleId };
+        
+        // Update an existing vehicle
+        const updated = await updateVehicles(vehicleId, dataToUpdate);
+        
+        // Update the local state
+        setData((prev) =>
+          prev.map((vehicle) => (vehicle._id === vehicleId ? updated : vehicle))
+        );
+        
+        // Close the edit modal after update
+        setIsEditModalOpen(false);
+        setSelectedData(null);
+      } else {
+        // Create a new vehicle
         const created = await createVehicles(formData);
         setData((prev) => [...prev, created]);
         setIsModalOpen(false); // Close the add modal after creating
-      } catch (error) {
-        console.error("Error creating broker:", error);
-        alert("Error creating broker. Please try again.");
       }
+    } catch (error) {
+      console.error("Error handling vehicle data:", error);
+      alert("Error processing vehicle data. Please try again.");
     }
   };
+
   const getDataForVehicleType = (type: string) => {
     if (type === "Own") {
       return ownData;
@@ -347,61 +374,101 @@ const VehicleManagement = () => {
   const transformToFields = (data: any, parentKey: string = ""): any[] => {
     if (!data) return [];
 
-    const fields: any[] = [];
+    // Order based on defaultData structure
+    const orderedFields: any[] = [];
+    const fieldsByKey: Record<string, any> = {};
 
-    // Iterate over each key-value pair in the Data
-    Object.keys(data).forEach((key) => {
-      const value = data[key];
-      const fieldName = parentKey ? `${parentKey}.${key}` : key;
+    const processObject = (obj: any, prefix: string = "") => {
+      Object.keys(obj).forEach((key) => {
+        const value = obj[key];
+        const fieldName = prefix ? `${prefix}.${key}` : key;
 
-      if (key === "id") return;
-      // If the value is an object (and not null), call the function recursively
+        // Don't skip _id field when updating
+        if (key === "id") return;
 
-      if (key === "Documents") {
-        // Handle documents as files
-        Object.keys(value).forEach((doc: any, index: number) => {
-          const docKey = `Document${doc}${index + 1}`;
-          fields.push({
-            id: `${fieldName}.${docKey}`,
-            name: `Upload ${doc}`,
-            type: "file",
-            value: value[docKey],
-            key: `${fieldName}.${docKey}`,
-            accept: "application/pdf,image/*",
+        if (key === "Documents") {
+          Object.entries(value).forEach(([docKey, docVal]) => {
+            const field = {
+              id: `${fieldName}.${docKey}`,
+              name: `Upload ${docKey}`,
+              type: "file",
+              value: docVal,
+              key: `${fieldName}.${docKey}`,
+              accept: "application/pdf,image/*",
+            };
+            fieldsByKey[`${fieldName}.${docKey}`] = field;
           });
-        });
-      }
+        } else if (typeof value === "object" && value !== null && !Array.isArray(value)) {
+          processObject(value, fieldName);
+        } else {
+          const field = {
+            id: fieldName,
+            name: fieldName,
+            placeholder: `Consignee ${key.replace(/([A-Z])/g, " $1").toLowerCase()}`,
+            type: getFieldType(value),
+            value: value,
+          };
+          fieldsByKey[fieldName] = field;
+        }
+      });
+    };
 
-      if (typeof value === "object" && value !== null) {
-        // Recursively handle nested objects
-        fields.push(...transformToFields(value, fieldName));
-      } else {
-        // Otherwise, handle the simple property
-        fields.push({
-          id: fieldName,
-          name: fieldName,
-          placeholder: `Vehicle ${key.replace(/([A-Z])/g, " $1").toLowerCase()}`, // Dynamically set the placeholder
-          type: getFieldType(value, key), // Dynamically determine the input type
-          value: value, // Format date fields to match input date format
-        });
-      }
+    // Process data to collect all fields
+    processObject(data);
+
+    // If this is for editing, add a hidden field for _id
+    if (data._id) {
+      fieldsByKey["_id"] = {
+        id: "_id",
+        name: "_id",
+        type: "hidden",
+        value: data._id,
+      };
+    }
+
+    // Process default data to ensure correct order
+    const processDefaultDataOrder = (obj: any, prefix: string = "") => {
+      Object.keys(obj).forEach((key) => {
+        const value = obj[key];
+        const fieldName = prefix ? `${prefix}.${key}` : key;
+
+        if (key === "id") return;
+
+        if (key === "Documents") {
+          Object.entries(value).forEach(([docKey]) => {
+            const fullKey = `${fieldName}.${docKey}`;
+            if (fieldsByKey[fullKey]) {
+              orderedFields.push(fieldsByKey[fullKey]);
+              delete fieldsByKey[fullKey];
+            }
+          });
+        } else if (typeof value === "object" && value !== null && !Array.isArray(value)) {
+          processDefaultDataOrder(value, fieldName);
+        } else {
+          if (fieldsByKey[fieldName]) {
+            orderedFields.push(fieldsByKey[fieldName]);
+            delete fieldsByKey[fieldName];
+          }
+        }
+      });
+    };
+
+    // Process default data structure to get the right order
+    processDefaultDataOrder(defaultData);
+
+    // Add any remaining fields that might not be in defaultData
+    Object.values(fieldsByKey).forEach((field) => {
+      orderedFields.push(field);
     });
 
-    return fields;
+    return orderedFields;
   };
 
-  // Helper function to determine the input field type
-  const getFieldType = (value: any, key: string): string => {
-    if (typeof value === "boolean") return "checkbox"; // Boolean values will map to checkboxes
-    if (typeof value === "number") return "number"; // Number values will map to number input
-    if (
-      key.toLowerCase().includes("date") ||
-      value instanceof Date ||
-      !isNaN(Date.parse(value))
-    ) {
-      return "date"; // Return "date" type for date fields
-    }
-    return "text"; // Default type for strings is text
+  const getFieldType = (value: any): string => {
+    if (typeof value === "boolean") return "checkbox";
+    if (typeof value === "number") return "number";
+    if (value instanceof Date) return "date";
+    return "text";
   };
 
   const handleOpenModal = () => {
@@ -443,10 +510,13 @@ const VehicleManagement = () => {
     setIsModalOpen(false);
     setIsEditModalOpen(false);
     setIsVehicleModalOpen(false);
+    // Clear selected data when closing modals
+    setSelectedData(null);
   };
 
   const handleEditData = (data: any) => {
-    setSelectedData(data);
+    // Make sure we have a complete copy of the data object with _id
+    setSelectedData({...data});
     setIsEditModalOpen(true);
   };
 
@@ -463,19 +533,46 @@ const VehicleManagement = () => {
     setData(updatedData);
   };
 
-  const headers =
-    Data.length > 0
-      ? Object.keys(Data[0]).filter((key) => !["_id", "__v"].includes(key))
-      : [];
+  // Generate ordered headers based on defaultData structure
+  const getOrderedHeaders = () => {
+    if (Data.length === 0) return [];
+
+    const orderedKeys: string[] = [];
+    const defaultKeys = Object.keys(defaultData);
+
+    // First add keys that match the default data order
+    defaultKeys.forEach((key) => {
+      if (Data[0].hasOwnProperty(key) && !["_id", "__v"].includes(key)) {
+        orderedKeys.push(key);
+      }
+    });
+
+    // Then add any remaining keys from the data
+    Object.keys(Data[0]).forEach((key) => {
+      if (!orderedKeys.includes(key) && !["_id", "__v"].includes(key)) {
+        orderedKeys.push(key);
+      }
+    });
+
+    return orderedKeys;
+  };
+
+  const headers = getOrderedHeaders().filter(
+    (key) => !["_id", "__v", "createdAt"].includes(key),
+  );
 
   const handleDelete = async (id: string) => {
     const confirmed = confirm("Are you sure you want to delete this Vehicle?");
     if (!confirmed) return;
 
-    const success = await deleteVehicles(id);
-    if (success) {
-      setData((prev) => prev.filter((broker) => broker.id !== id));
-      window.location.reload();
+    try {
+      const success = await deleteVehicles(id);
+      if (success) {
+        setData((prev) => prev.filter((vehicle) => vehicle._id !== id));
+      }
+    } catch (error) {
+      console.error("Error deleting vehicle:", error);
+      alert("Error deleting vehicle. Please try again.");
     }
   };
 
@@ -512,6 +609,24 @@ const VehicleManagement = () => {
           </div>
         </div>
       </div>
+
+   <motion.div
+        className="mb-6 rounded-xl bg-white p-4 shadow-md"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3, duration: 0.5 }}
+      >
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
+          <input
+            type="text"
+            placeholder="Search consignors by name, email, phone or GSTIN..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full rounded-lg border border-gray-300 py-2.5 pl-10 pr-4 text-gray-700 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+          />
+        </div>
+      </motion.div>
 
       {/* Table Section */}
       <div className="w-[70vw] rounded-lg bg-white shadow-md">
@@ -567,25 +682,45 @@ const VehicleManagement = () => {
                       : item[header];
 
                     // Handle case when the value is an object (and not null)
-                    if (
-                      typeof value === "object" &&
-                      value !== null &&
-                      !Array.isArray(value)
-                    ) {
+                    if (typeof value === "object" && value !== null && !Array.isArray(value)) {
                       return (
                         <td key={header} className="px-6 py-4">
-                          <div className="max-h-32 overflow-y-auto rounded-lg border border-gray-200 p-2">
-                            {Object.entries(value).map(([key, val]) => (
-                              <div key={key} className="mb-1 text-sm">
-                                <span className="font-semibold text-gray-900">
-                                  {key}:
-                                </span>{" "}
-                                <span className="text-gray-800">
-                                  {String(val)}
-                                </span>
-                              </div>
-                            ))}
-                          </div>
+                          <motion.div
+                            initial={{ height: "auto" }}
+                            whileHover={{ scale: 1.02 }}
+                            className="max-h-32 w-35 overflow-y-auto rounded-lg border border-gray-200 bg-gray-50 p-3 shadow-sm transition-all group-hover:border-blue-200 group-hover:shadow-md"
+                          >
+                            <div className="grid grid-cols-1 gap-2">
+                              {Object.entries(value).map(([key, val]) => {
+                                const isBase64Image =
+                                  typeof val === "string" &&
+                                  val.startsWith("data:image/") &&
+                                  val.includes("base64");
+
+                                return (
+                                  <div key={key} className="text-sm">
+                                    <span className="font-semibold text-gray-900">
+                                      {key.charAt(0).toUpperCase() +
+                                        key.slice(1)}
+                                      :
+                                    </span>{" "}
+                                    {isBase64Image ? (
+                                      <motion.img
+                                        src={val}
+                                        alt={key}
+                                        whileHover={{ scale: 1.1 }}
+                                        className="mt-1 h-16 w-auto rounded border border-gray-300 shadow-sm transition-transform"
+                                      />
+                                    ) : (
+                                      <span className="text-gray-800">
+                                        {String(val)}
+                                      </span>
+                                    )}
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </motion.div>
                         </td>
                       );
                     }

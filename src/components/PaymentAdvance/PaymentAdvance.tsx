@@ -2,7 +2,13 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-
+import {
+  fetchPaymentAdvance,
+  createPaymentAdvance,
+  updatePaymentAdvance,
+  deletePaymentAdvance,
+} from "@/lib/api/paymentAdvance";
+import { fetchChallanForm } from "@/lib/api/challanForm";
 interface Row {
   paymentMode?: string;
   debit?: string;
@@ -11,7 +17,7 @@ interface Row {
 
 const FormPage: React.FC = () => {
   const [Data, setData] = useState<any[]>([]);
-  const [BrokerData, setBrokerData] = useState<any[]>([]);
+  const [challanData, setChallanData] = useState<any[]>([]);
   const [selectedData, setSelectedData] = useState<any[]>([]); // Array to store selected bilties
   const [rows, setRows] = useState<Row[]>([{}]); // Explicit type for rows
   const [isOpen, setIsOpen] = useState(false);
@@ -27,11 +33,11 @@ const FormPage: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [biltyResponse] = await Promise.all([fetch("/data/broker.json")]);
+        const [biltyResponse] = await Promise.all([fetchChallanForm()]);
 
         const data = await biltyResponse.json();
 
-        setBrokerData(data);
+        setChallanData(data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -42,9 +48,8 @@ const FormPage: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch("/data/paymentAdvance.json");
-      const data = await response.json();
-      setData(data);
+      const response = await fetchPaymentAdvance();
+      setData(response);
     };
 
     fetchData();
@@ -223,7 +228,7 @@ const FormPage: React.FC = () => {
                         className="rounded-lg border border-gray-300 p-3 text-sm transition-colors focus:ring-2 focus:ring-blue-500"
                       >
                         <option value="">Select</option>
-                        {BrokerData.map((consignor, index) => (
+                        {challanData.map((consignor, index) => (
                           <option key={index} value={consignor.firm.firmName}>
                             {consignor.firm.firmName}{" "}
                             {/* Adjust based on your data structure */}

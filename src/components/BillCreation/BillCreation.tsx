@@ -16,6 +16,13 @@ interface Row {
   credit?: string;
 }
 
+import {
+  fetchBillCreations,
+  createBillCreations,
+  updateBillCreations,
+  deleteBillCreations,
+} from "@/lib/api/billCreation";
+
 const FormPage: React.FC = () => {
   const [Data, setData] = useState<any[]>([]);
   const [selectedBilty, setSelectedBilty] = useState<any[]>([]);
@@ -30,9 +37,8 @@ const FormPage: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch("/data/billCreation.json");
-      const data = await response.json();
-      setData(data);
+      const response = await fetchBillCreations();
+      setData(response);
     };
 
     fetchData();

@@ -1,7 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-
+import {
+  fetchMoneyReceipt,
+  createMoneyReceipt,
+  updateMoneyReceipt,
+  deleteMoneyReceipt,
+} from "@/lib/api/moneyReceipt";
 interface Row {
   paymentMode?: string;
   debit?: string;
@@ -22,9 +27,8 @@ const FormPage: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch("/data/moneyReceipt.json");
-      const data = await response.json();
-      setData(data);
+      const response = await fetchMoneyReceipt();
+      setData(response);
     };
 
     fetchData();

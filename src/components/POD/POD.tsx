@@ -1,9 +1,9 @@
 "use client";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import FormModal from "../FormModal/FormModal";
 import Image from "next/image";
 import { Edit2, Eye, FileDown, Plus, Trash2 } from "lucide-react";
+import { fetchPod, createPod, updatePod, deletePod } from "@/lib/api/pod";
 
 const VehicleManagement = () => {
   const defaultData = {
@@ -120,20 +120,54 @@ const VehicleManagement = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch("/data/POD.json");
-      const data = await response.json();
-      setData(data);
+      const response = await fetchPod();
+      setData(response);
     };
 
     fetchData();
   }, []);
 
-  const handleSubmit = (updatedData: any) => {
-    const updatedDatas = Data.map((data) =>
-      data.id === updatedData.id ? updatedData : data,
-    );
-    setData(updatedDatas);
-    setIsEditModalOpen(false);
+  const headers =
+    Data.length > 0
+      ? Object.keys(Data[0]).filter((key) => !["_id", "__v"].includes(key))
+      : [];
+
+  const handleSubmit = async (formData: any) => {
+    // Check if it's an update or a new entry
+    if (formData._id) {
+      // Update an existing broker
+      try {
+        const updated = await updatePod(formData._id, formData);
+        setData((prev) =>
+          prev.map((b) => (b._id === updated._id ? updated : b)),
+        );
+        setIsEditModalOpen(false); // Close the edit modal after update
+      } catch (error) {
+        console.error("Error updating broker:", error);
+        alert("Error updating broker. Please try again.");
+      }
+    } else {
+      // Create a new broker
+      try {
+        const created = await createPod(formData);
+        setData((prev) => [...prev, created]);
+        setIsModalOpen(false); // Close the add modal after creating
+      } catch (error) {
+        console.error("Error creating broker:", error);
+        alert("Error creating broker. Please try again.");
+      }
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    const confirmed = confirm("Are you sure you want to delete this POD?");
+    if (!confirmed) return;
+
+    const success = await deletePod(id);
+    if (success) {
+      setData((prev) => prev.filter((broker) => broker.id !== id));
+      window.location.reload();
+    }
   };
 
   const transformToFields = (data: any, parentKey: string = ""): any[] => {
@@ -196,8 +230,6 @@ const VehicleManagement = () => {
     setIsEditModalOpen(true);
   };
 
-  const headers = Data.length > 0 ? Object.keys(Data[0]) : [];
-
   return (
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="flex items-center justify-between rounded-t-lg border-b border-gray-300 bg-blue-50 p-6">
@@ -233,9 +265,7 @@ const VehicleManagement = () => {
         {/* Header Section */}
         <div className="mb-8 rounded-lg bg-white p-6 shadow-md">
           <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
-            <h1 className="text-2xl font-bold text-gray-800">
-              POD Management
-            </h1>
+            <h1 className="text-2xl font-bold text-gray-800">POD Management</h1>
             <div className="flex flex-wrap gap-3">
               <button
                 onClick={handleOpenModal}
@@ -288,6 +318,7 @@ const VehicleManagement = () => {
                           <Edit2 className="h-4 w-4" />
                         </button>
                         <button
+                          onClick={() => handleDelete(item._id)}
                           className="rounded p-1 text-red-600 hover:bg-red-50"
                           title="Delete"
                         >

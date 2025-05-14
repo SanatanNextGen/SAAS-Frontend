@@ -1,88 +1,121 @@
 "use client";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import FormModal from "../FormModal/FormModal";
-import { Plus, FileDown, Edit2, Trash2, Eye } from "lucide-react";
 import {
   fetchBrokers,
   createBroker,
   updateBroker,
   deleteBroker,
 } from "@/lib/api/broker"; // Adjust the import path as necessary
+import FormModal from "../FormModal/FormModal";
+import { Plus, FileDown, Edit2, Trash2, Search } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+
+const defaultData = {
+  id: "",
+  firm: {
+    firmName: " ",
+    firmType: " ",
+    firmPANNumber: "",
+    gstin: "",
+  },
+  firmAddress: {
+    street: "",
+    city: "",
+    state: "",
+    zip: "",
+  },
+  owner: {
+    OwnerFirstName: " ",
+    adharNumber: "",
+    OwnerLastName: " ",
+  },
+  OwnerAddress: {
+    street: "",
+    city: "",
+    state: "",
+    zip: "",
+  },
+  contact: {
+    email: "",
+    phone: "",
+  },
+  bankDetails: {
+    accountNumber: "",
+    ifscCode: "",
+    bankName: "",
+  },
+  Documents: {
+    PANCard: "",
+    AdharCard: "",
+    visitingCard: "",
+  },
+  tdsDeclaration: false,
+};
 
 const BrokerManagement = () => {
-  const defaultData = {
-    id: "",
-    firm: {
-      firmName: " ",
-      firmType: " ",
-      firmPANNumber: "",
-      gstin: "",
-    },
-    firmAddress: {
-      street: "",
-      city: "",
-      state: "",
-      zip: "",
-    },
-    owner: {
-      OwnerFirstName: " ",
-      adharNumber: "",
-      OwnerLastName: " ",
-    },
-    OwnerAddress: {
-      street: "",
-      city: "",
-      state: "",
-      zip: "",
-    },
-    contact: {
-      email: "",
-      phone: "",
-    },
-    bankDetails: {
-      accountNumber: "",
-      ifscCode: "",
-      bankName: "",
-    },
-    Documents: {
-      PANCard: "",
-      AdharCard: "",
-      visitingCard: "",
-    },
-    tdsDeclaration: false,
-  };
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [Data, setData] = useState<any[]>([]);
-  const [selectedData, setSelectedData] = useState<any>(null); // New state for the selected vehicle
+  const [filteredData, setFilteredData] = useState<any[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedData, setSelectedData] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
 
   // Fetching the JSON file
   useEffect(() => {
-    const getBrokers = async () => {
-      const brokers = await fetchBrokers();
-      setData(brokers);
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetchBrokers();
+        setData(response);
+        setFilteredData(response);
+      } catch (error) {
+        console.error("Error fetching brokers:", error);
+      } finally {
+        setIsLoading(false);
+      }
     };
-    getBrokers();
+
+    fetchData();
   }, []);
 
+  // Filter data when search term changes
+  useEffect(() => {
+    if (searchTerm.trim() === "") {
+      setFilteredData(Data);
+    } else {
+      const filtered = Data.filter((item) => {
+        const searchLower = searchTerm.toLowerCase();
+        return (
+          item.businessName?.toLowerCase().includes(searchLower) ||
+          item.contact?.email?.toLowerCase().includes(searchLower) ||
+          item.contact?.phone?.includes(searchTerm) ||
+          item.gstin?.toLowerCase().includes(searchLower)
+        );
+      });
+      setFilteredData(filtered);
+    }
+  }, [searchTerm, Data]);
 
-  const headers = Data.length > 0
-  ? Object.keys(Data[0]).filter(
-      (key) => !["_id", "__v"].includes(key)
-    )
-  : [];
-  
   const handleSubmit = async (formData: any) => {
     // Check if it's an update or a new entry
-    if (formData._id) {
-      // Update an existing broker
+    if (selectedData && selectedData._id) {
+      // Update an existing broker - ensure we're using the _id from selectedData
       try {
-        const updated = await updateBroker(formData._id, formData);
+        const updatedData = {
+          ...formData,
+          _id: selectedData._id, // Ensure _id is preserved
+        };
+
+        const updated = await updateBroker(selectedData._id, updatedData);
+
         setData((prev) =>
-          prev.map((b) => (b._id === updated._id ? updated : b)),
+          prev.map((item) => (item._id === selectedData._id ? updated : item)),
         );
+
+        setSelectedData(null); // Reset selected data
         setIsEditModalOpen(false); // Close the edit modal after update
       } catch (error) {
         console.error("Error updating broker:", error);
@@ -102,126 +135,151 @@ const BrokerManagement = () => {
   };
 
   const handleDelete = async (id: string) => {
-    const confirmed = confirm("Are you sure you want to delete this broker?");
-    if (!confirmed) return;
-
     const success = await deleteBroker(id);
     if (success) {
-      setData((prev) => prev.filter((broker) => broker.id !== id));
-      window.location.reload();
+      setData((prev) => prev.filter((broker) => broker._id !== id));
+      setDeleteConfirmId(null);
     }
   };
 
   const transformToFields = (data: any, parentKey: string = ""): any[] => {
     if (!data) return [];
 
-    const fields: any[] = [];
+    // Order based on defaultData structure
+    const orderedFields: any[] = [];
+    const fieldsByKey: Record<string, any> = {};
 
-    // Iterate over each key-value pair in the Data
-    Object.keys(data).forEach((key) => {
-      const value = data[key];
-      const fieldName = parentKey ? `${parentKey}.${key}` : key;
+    const processObject = (obj: any, prefix: string = "") => {
+      Object.keys(obj).forEach((key) => {
+        const value = obj[key];
+        const fieldName = prefix ? `${prefix}.${key}` : key;
 
-      if (key === "_id") return;
-      // If the value is an object (and not null), call the function recursively
+        if (key === "id" || key === "_id") return;
 
-      if (key === "Documents") {
-        // Handle documents as files
-        Object.keys(value).forEach((doc: any, index: number) => {
-          const docKey = `Document${doc}${index + 1}`;
-          fields.push({
-            id: `${fieldName}.${docKey}`,
-            name: `Upload ${doc}`,
-            type: "file",
-            value: value[docKey],
-            key: `${fieldName}.${docKey}`,
-            accept: "application/pdf,image/*",
+        if (key === "Documents") {
+          Object.entries(value).forEach(([docKey, docVal]) => {
+            const field = {
+              id: `${fieldName}.${docKey}`,
+              name: `Upload ${docKey}`,
+              type: "file",
+              value: docVal,
+              key: `${fieldName}.${docKey}`,
+              accept: "application/pdf,image/*",
+            };
+            fieldsByKey[`${fieldName}.${docKey}`] = field;
           });
-        });
-      }
+        } else if (typeof value === "object" && value !== null) {
+          processObject(value, fieldName);
+        } else {
+          const field = {
+            id: fieldName,
+            name: fieldName,
+            placeholder: `Broker ${key.replace(/([A-Z])/g, " $1").toLowerCase()}`,
+            type: getFieldType(value),
+            value: value,
+          };
+          fieldsByKey[fieldName] = field;
+        }
+      });
+    };
 
-      if (typeof value === "object" && value !== null) {
-        // Recursively handle nested objects
-        fields.push(...transformToFields(value, fieldName));
-      } else {
-        // Otherwise, handle the simple property
-        fields.push({
-          id: fieldName,
-          name: fieldName,
-          placeholder: `Enter ${key.replace(/([A-Z])/g, " $1").toLowerCase()}`, // Dynamically set the placeholder
-          type: getFieldType(value), // Dynamically determine the input type
-          value: value, // Format date fields to match input date format
-        });
-      }
+    // Process data to collect all fields
+    processObject(data);
+
+    // Process default data to ensure correct order
+    const processDefaultDataOrder = (obj: any, prefix: string = "") => {
+      Object.keys(obj).forEach((key) => {
+        const value = obj[key];
+        const fieldName = prefix ? `${prefix}.${key}` : key;
+
+        if (key === "id" || key === "_id") return;
+
+        if (key === "Documents") {
+          Object.entries(value).forEach(([docKey]) => {
+            const fullKey = `${fieldName}.${docKey}`;
+            if (fieldsByKey[fullKey]) {
+              orderedFields.push(fieldsByKey[fullKey]);
+              delete fieldsByKey[fullKey];
+            }
+          });
+        } else if (typeof value === "object" && value !== null) {
+          processDefaultDataOrder(value, fieldName);
+        } else {
+          if (fieldsByKey[fieldName]) {
+            orderedFields.push(fieldsByKey[fieldName]);
+            delete fieldsByKey[fieldName];
+          }
+        }
+      });
+    };
+
+    // Process default data structure to get the right order
+    processDefaultDataOrder(defaultData);
+
+    // Add any remaining fields that might not be in defaultData
+    Object.values(fieldsByKey).forEach((field) => {
+      orderedFields.push(field);
     });
 
-    return fields;
+    return orderedFields;
   };
 
-  // Helper function to determine the input field type
   const getFieldType = (value: any): string => {
-    if (typeof value === "boolean") return "checkbox"; // Boolean values will map to checkboxes
-    if (typeof value === "number") return "number"; // Number values will map to number input
-
-    return "text"; // Default type for strings is text
+    if (typeof value === "boolean") return "checkbox";
+    if (typeof value === "number") return "number";
+    return "text";
   };
 
   const handleOpenModal = () => {
+    setSelectedData(null); // Reset selected data when opening add modal
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    setIsEditModalOpen(false); // Close the edit modal when closing the modal
+    setIsEditModalOpen(false);
+    setSelectedData(null); // Reset selected data when closing modals
   };
 
   const handleEditData = (data: any) => {
-    setSelectedData(data); // Set the selected data to show in the edit modal
-    setIsEditModalOpen(true); // Open the edit modal for editing
+    setSelectedData(data);
+    setIsEditModalOpen(true);
   };
 
   const downloadCSV = () => {
     const csvRows = [];
     const headers = [
-      "Firm Name",
-      "Firm Type",
-      "Firm PAN Number",
+      "ID",
+      "BusinessName",
+      "Email",
+      "Phone",
+      "Street",
+      "City",
+      "State",
+      "Zip",
       "GSTIN",
-      "Owner First Name",
-      "Owner Last Name",
-      "Owner Aadhar Number",
-      "Owner Address Street",
-      "Owner Address City",
-      "Owner Address State",
-      "Owner Address Zip",
-      "Owner Email",
-      "Owner Phone",
-      "Bank Account Number",
-      "Bank IFSC Code",
+      "Account Number",
+      "IFSC Code",
       "Bank Name",
       "Created At",
       "Updated At",
     ];
     csvRows.push(headers.join(","));
 
-    Data.forEach((item) => {
+    Data.forEach((item: any) => {
       const row = [
-        item.firm.firmName,
-        item.firm.firmType,
-        item.firm.firmPANNumber,
-        item.firm.gstin,
-        item.owner.OwnerFirstName,
-        item.owner.OwnerLastName,
-        item.owner.adharNumber,
-        item.ownerAddress.street,
-        item.ownerAddress.city,
-        item.ownerAddress.state,
-        item.ownerAddress.zip,
-        item.contact.email,
-        item.contact.phone,
-        item.bankDetails.accountNumber,
-        item.bankDetails.ifscCode,
-        item.bankDetails.bankName,
+        item.id,
+        item.businessName,
+        item.contact?.email,
+        item.contact?.phone,
+        item.address?.street,
+        item.address?.city,
+        item.address?.state,
+        item.address?.zip,
+        item.gstin,
+        item.bankDetails?.accountNumber,
+        item.bankDetails?.ifscCode,
+        item.bankDetails?.bankName,
         item.createdAt,
         item.updatedAt,
       ];
@@ -238,144 +296,318 @@ const BrokerManagement = () => {
     URL.revokeObjectURL(url);
   };
 
+  // Generate ordered headers based on defaultData structure
+  const getOrderedHeaders = () => {
+    if (Data.length === 0) return [];
 
+    const orderedKeys: string[] = [];
+    const defaultKeys = Object.keys(defaultData);
+
+    // First add keys that match the default data order
+    defaultKeys.forEach((key) => {
+      if (Data[0].hasOwnProperty(key) && !["_id", "__v"].includes(key)) {
+        orderedKeys.push(key);
+      }
+    });
+
+    // Then add any remaining keys from the data
+    Object.keys(Data[0]).forEach((key) => {
+      if (!orderedKeys.includes(key) && !["_id", "__v"].includes(key)) {
+        orderedKeys.push(key);
+      }
+    });
+
+    return orderedKeys;
+  };
+
+  const headers = getOrderedHeaders().filter(
+    (key) => !["_id", "__v", "createdAt"].includes(key),
+  );
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 p-6">
+      {/* Delete Confirmation Modal */}
+      <AnimatePresence>
+        {deleteConfirmId && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="w-96 rounded-xl bg-white p-6 shadow-2xl"
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 20 }}
+            >
+              <h3 className="mb-4 text-xl font-bold text-gray-800">
+                Confirm Deletion
+              </h3>
+              <p className="mb-6 text-gray-600">
+                Are you sure you want to delete this broker? This action
+                cannot be undone.
+              </p>
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => setDeleteConfirmId(null)}
+                  className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition-all hover:bg-gray-100"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => handleDelete(deleteConfirmId)}
+                  className="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-red-700"
+                >
+                  Delete
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Header Section */}
-      <div className="mb-8 rounded-lg bg-white p-6 shadow-md">
-        <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
-          <h1 className="text-2xl font-bold text-gray-800">
-            Broker Management
-          </h1>
+      <motion.div
+        className="mb-8 overflow-hidden rounded-xl bg-white p-6 shadow-lg"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-center">
+          <div>
+            <motion.h1
+              className="text-3xl font-bold text-gray-800"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
+            >
+              Broker Management
+            </motion.h1>
+            <motion.p
+              className="mt-2 text-gray-600"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
+            >
+              Manage all your brokers in one place
+            </motion.p>
+          </div>
           <div className="flex flex-wrap gap-3">
-            <button
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={handleOpenModal}
-              className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-blue-700"
+              className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-blue-700 hover:shadow-lg"
             >
               <Plus className="h-4 w-4" />
               Add Broker
-            </button>
-            <button
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={downloadCSV}
-              className="inline-flex items-center gap-2 rounded-lg bg-purple-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-purple-700"
+              className="inline-flex items-center gap-2 rounded-lg bg-purple-600 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-purple-700 hover:shadow-lg"
             >
               <FileDown className="h-4 w-4" />
               Export CSV
-            </button>
+            </motion.button>
           </div>
         </div>
-      </div>
+      </motion.div>
+
+      {/* Search and Filters */}
+      <motion.div
+        className="mb-6 rounded-xl bg-white p-4 shadow-md"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3, duration: 0.5 }}
+      >
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
+          <input
+            type="text"
+            placeholder="Search brokers by name, email, phone or GSTIN..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full rounded-lg border border-gray-300 py-2.5 pl-10 pr-4 text-gray-700 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+          />
+        </div>
+      </motion.div>
 
       {/* Table Section */}
-      <div className="w-[70vw] rounded-lg bg-white shadow-md">
-        <div className="overflow-x-auto">
-          <table className="w-full border-collapse">
-            <thead>
-              <tr className="bg-gray-50">
-                <th className="border-b px-6 py-4 text-left text-sm font-semibold text-gray-600">
-                  Actions
-                </th>
-                {headers.map((header) => (
-                  <th
-                    key={header}
-                    className="border-b px-6 py-4 text-left text-sm font-semibold text-gray-600"
-                  >
-                    {header.charAt(0).toUpperCase() + header.slice(1)}
+      <motion.div
+        className="w-[72vw] overflow-x-auto  rounded-xl bg-white shadow-lg"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.4, duration: 0.5 }}
+      >
+        {isLoading ? (
+          <div className="flex h-64 items-center justify-center">
+            <div className="h-10 w-10 animate-spin rounded-full border-4 border-blue-500 border-t-transparent"></div>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse">
+              <thead>
+                <tr className="bg-gray-50">
+                  <th className="border-b px-6 py-4 text-left text-sm font-semibold text-gray-600">
+                    Actions
                   </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200">
-              {Data?.map((branch, index) => (
-                <tr key={index} className="hover:bg-gray-50">
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-3">
-                      <button
-                        onClick={() => handleEditData(branch)}
-                        className="rounded p-1 text-blue-600 hover:bg-blue-50"
-                        title="Edit"
-                      >
-                        <Edit2 className="h-4 w-4" />
-                      </button>
-                      <button
-                        onClick={() => handleDelete(branch._id)}
-                        className="rounded p-1 text-red-600 hover:bg-red-50"
-                        title="Delete"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </button>
-                      <button
-                        className="rounded p-1 text-gray-600 hover:bg-gray-50"
-                        title="View Details"
-                      >
-                        <Eye className="h-4 w-4" />
-                      </button>
-                    </div>
-                  </td>
-                  {headers.map((header) => {
-                    const value = header.includes(".")
-                      ? header
-                          .split(".")
-                          .reduce((o, i) => (o ? o[i] : null), branch)
-                      : branch[header];
-
-                    if (typeof value === "object" && value !== null) {
-                      return (
-                        <td key={header} className="px-6 py-4">
-                          <div className="max-h-32 overflow-y-auto rounded-lg border border-gray-200 p-2">
-                            <div className="grid w-20 grid-cols-1 gap-2">
-                              {Object.entries(value).map(([key, val]) => (
-                                <div key={key} className="text-sm">
-                                  <span className="font-semibold text-gray-900">
-                                    {key.charAt(0).toUpperCase() + key.slice(1)}
-                                    :
-                                  </span>{" "}
-                                  <span className="text-gray-800">
-                                    {String(val)}
-                                  </span>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        </td>
-                      );
-                    }
-
-                    return (
-                      <td
-                        key={header}
-                        className="px-6 py-4 text-sm text-gray-800"
-                      >
-                        {value || "-"}
-                      </td>
-                    );
-                  })}
+                  {headers.map((header) => (
+                    <th
+                      key={header}
+                      className="border-b px-6 py-4 text-left text-sm font-semibold text-gray-600"
+                    >
+                      {header.charAt(0).toUpperCase() + header.slice(1)}
+                    </th>
+                  ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+              </thead>
+              <tbody className="divide-y divide-gray-200">
+                <AnimatePresence>
+                  {filteredData.map((branch, index) => (
+                    <motion.tr
+                      key={branch._id || index}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ delay: index * 0.05, duration: 0.3 }}
+                      className="group hover:bg-blue-50"
+                    >
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-3">
+                          <motion.button
+                            whileHover={{ scale: 1.2 }}
+                            whileTap={{ scale: 0.9 }}
+                            onClick={() => handleEditData(branch)}
+                            className="rounded-full p-2 text-blue-600 transition-colors hover:bg-blue-100"
+                            title="Edit"
+                          >
+                            <Edit2 className="h-4 w-4" />
+                          </motion.button>
+                          <motion.button
+                            whileHover={{ scale: 1.2 }}
+                            whileTap={{ scale: 0.9 }}
+                            onClick={() => setDeleteConfirmId(branch._id)}
+                            className="rounded-full p-2 text-red-600 transition-colors hover:bg-red-100"
+                            title="Delete"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </motion.button>
+                        </div>
+                      </td>
+                      {headers.map((header) => {
+                        const value = header.includes(".")
+                          ? header
+                              .split(".")
+                              .reduce((o, i) => (o ? o[i] : null), branch)
+                          : branch[header];
+
+                        if (typeof value === "object" && value !== null) {
+                          return (
+                            <td key={header} className="px-6 py-4">
+                              <motion.div
+                                initial={{ height: "auto" }}
+                                whileHover={{ scale: 1.02 }}
+                                className="max-h-32 w-35 overflow-y-auto rounded-lg border border-gray-200 bg-gray-50 p-3 shadow-sm transition-all group-hover:border-blue-200 group-hover:shadow-md"
+                              >
+                                <div className="grid grid-cols-1 gap-2">
+                                  {Object.entries(value).map(([key, val]) => {
+                                    const isBase64Image =
+                                      typeof val === "string" &&
+                                      val.startsWith("data:image/") &&
+                                      val.includes("base64");
+
+                                    return (
+                                      <div key={key} className="text-sm">
+                                        <span className="font-semibold text-gray-900">
+                                          {key.charAt(0).toUpperCase() +
+                                            key.slice(1)}
+                                          :
+                                        </span>{" "}
+                                        {isBase64Image ? (
+                                          <motion.img
+                                            src={val}
+                                            alt={key}
+                                            whileHover={{ scale: 1.1 }}
+                                            className="mt-1 h-16 w-auto rounded border border-gray-300 shadow-sm transition-transform"
+                                          />
+                                        ) : (
+                                          <span className="text-gray-800">
+                                            {String(val)}
+                                          </span>
+                                        )}
+                                      </div>
+                                    );
+                                  })}
+                                </div>
+                              </motion.div>
+                            </td>
+                          );
+                        }
+
+                        return (
+                          <td
+                            key={header}
+                            className="px-6 py-4 text-sm text-gray-800"
+                          >
+                            {typeof value === "string" &&
+                            /^\d{4}-\d{2}-\d{2}T/.test(value)
+                              ? new Date(value).toISOString().split("T")[0] // Format the date
+                              : value || "-"}{" "}
+                            {/* Show formatted date or fallback "-" */}
+                          </td>
+                        );
+                      })}
+                    </motion.tr>
+                  ))}
+                </AnimatePresence>
+                {filteredData.length === 0 && !isLoading && (
+                  <tr>
+                    <td
+                      colSpan={headers.length + 1}
+                      className="px-6 py-12 text-center text-gray-500"
+                    >
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.5 }}
+                      >
+                        <p className="text-lg">No brokers found</p>
+                        <p className="mt-2 text-sm">
+                          Try adjusting your search or add a new broker
+                        </p>
+                      </motion.div>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </motion.div>
 
       {/* Modals */}
-      {isModalOpen && (
-        <FormModal
-          title="Add New Broker"
-          onClose={handleCloseModal}
-          fields={transformToFields(defaultData)}
-          onSubmit={handleSubmit}
-        />
-      )}
+      <AnimatePresence>
+        {isModalOpen && (
+          <FormModal
+            title="Add New Broker"
+            onClose={handleCloseModal}
+            fields={transformToFields(defaultData)}
+            onSubmit={handleSubmit}
+          />
+        )}
 
-      {isEditModalOpen && selectedData && (
-        <FormModal
-          title="Edit Broker Details"
-          onClose={handleCloseModal}
-          fields={transformToFields(selectedData)}
-          onSubmit={handleSubmit}
-        />
-      )}
+        {isEditModalOpen && selectedData && (
+          <FormModal
+            title="Edit Broker Details"
+            onClose={handleCloseModal}
+            fields={transformToFields(selectedData)}
+            onSubmit={handleSubmit}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 };

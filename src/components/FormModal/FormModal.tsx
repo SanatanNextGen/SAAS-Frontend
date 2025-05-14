@@ -32,6 +32,7 @@ interface Field {
   type: string;
   value: string | number | boolean | File | File[];
   required?: boolean;
+  documentPreviews?: { [key: string]: string };
 }
 
 interface FormModalProps {
@@ -39,9 +40,16 @@ interface FormModalProps {
   onClose: () => void;
   fields: Field[];
   onSubmit: (formData: { [key: string]: any }) => void;
+  documentPreviews?: { [key: string]: string };
 }
 
-const FormModal = ({ onClose, fields, title, onSubmit }: FormModalProps) => {
+const FormModal = ({
+  onClose,
+  fields,
+  title,
+  onSubmit,
+  documentPreviews = {},
+}: FormModalProps) => {
   const [formData, setFormData] = useState<{ [key: string]: any }>(
     fields.reduce(
       (acc, field) => ({ ...acc, [field.id]: field.value || "" }),
@@ -54,33 +62,105 @@ const FormModal = ({ onClose, fields, title, onSubmit }: FormModalProps) => {
   }>({});
 
   const [vehicleBodyTypes, setVehicleBodyTypes] = useState<Type[]>([]);
-
   const [Station, setStation] = useState<Type[]>([]);
-
   const [showTyreForm, setShowTyreForm] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+
+  // Initialize fileData with any existing previews from props
+  useEffect(() => {
+    if (documentPreviews && Object.keys(documentPreviews).length > 0) {
+      const initialFileData: {
+        [key: string]: { file: File | null; preview: string | null };
+      } = {};
+
+      Object.entries(documentPreviews).forEach(([fieldId, previewUrl]) => {
+        initialFileData[fieldId] = {
+          file: null, // We don't have the actual file, just the preview URL
+          preview: previewUrl,
+        };
+      });
+
+      setFileData((prev) => ({ ...prev, ...initialFileData }));
+    }
+  }, [documentPreviews]);
 
   const handleUploadClick = (fieldId: string) => {
     const input = document.createElement("input");
     input.type = "file";
     input.accept = fieldId.toLowerCase().includes("image") ? "image/*" : "*/*";
 
-    input.onchange = (event) => {
+    input.onchange = (event: Event) => {
       const target = event.target as HTMLInputElement;
       if (target?.files?.[0]) {
         const file = target.files[0];
-        setFormData((prev) => ({ ...prev, [fieldId]: file }));
-        const previewUrl = file.type.startsWith("image/")
-          ? URL.createObjectURL(file)
-          : null;
-        setFileData((prev) => ({
-          ...prev,
-          [fieldId]: { file, preview: previewUrl },
-        }));
+
+        const reader = new FileReader();
+        reader.onload = (e: ProgressEvent<FileReader>) => {
+          const img = document.createElement("img"); // ✅ Use native DOM image
+          img.onload = () => {
+            const canvas = document.createElement("canvas");
+
+            const MAX_WIDTH = 800;
+            const MAX_HEIGHT = 800;
+            let width = img.width;
+            let height = img.height;
+
+            if (width > height && width > MAX_WIDTH) {
+              height = (MAX_WIDTH / width) * height;
+              width = MAX_WIDTH;
+            } else if (height > MAX_HEIGHT) {
+              width = (MAX_HEIGHT / height) * width;
+              height = MAX_HEIGHT;
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+
+            const ctx = canvas.getContext("2d");
+            if (!ctx) {
+              console.error("Failed to get 2D context");
+              return;
+            }
+
+            ctx.drawImage(img, 0, 0, width, height);
+
+            const compressedBase64 = canvas.toDataURL("image/jpeg", 0.7);
+
+            setFileData((prev) => ({
+              ...prev,
+              [fieldId]: {
+                file,
+                preview: compressedBase64,
+              },
+            }));
+
+            setFormData((prev) => ({
+              ...prev,
+              [fieldId]: compressedBase64,
+            }));
+          };
+
+          img.src = e.target?.result as string;
+        };
+
+        reader.readAsDataURL(file);
       }
     };
+
     input.click();
   };
+
+  // Clean up object URLs when component unmounts to prevent memory leaks
+  useEffect(() => {
+    return () => {
+      // Revoke all object URLs when component unmounts
+      Object.values(fileData).forEach((data) => {
+        if (data.preview) {
+          URL.revokeObjectURL(data.preview);
+        }
+      });
+    };
+  }, []);
 
   const capitalizeWords = (str: string) => {
     if (!str) return str;
@@ -173,6 +253,8 @@ const FormModal = ({ onClose, fields, title, onSubmit }: FormModalProps) => {
   const renderFileUploadField = (field: Field) => {
     const fileInfo = fileData[field.id];
     const isImage = field.id.toLowerCase().includes("image");
+    const hasPreview =
+      fileInfo?.preview !== undefined && fileInfo?.preview !== null;
 
     return (
       <div className="space-y-2 overflow-x-auto">
@@ -188,25 +270,38 @@ const FormModal = ({ onClose, fields, title, onSubmit }: FormModalProps) => {
             <FaUpload className="h-4 w-4" />
             <span>Upload {isImage ? "Image" : "File"}</span>
           </button>
+
+          {fileInfo?.file && !isImage && (
+            <div className="mt-2 flex items-center gap-2 text-sm text-gray-600">
+              <span className="font-medium">File:</span> {fileInfo.file.name}
+            </div>
+          )}
         </div>
-        {fileInfo?.preview && isImage && (
+
+        {/* Image preview section */}
+        {hasPreview && (
           <div className="mt-2 flex justify-center">
             <div className="relative h-32 w-32 overflow-hidden rounded-lg border border-gray-200">
               <Image
                 width={128}
                 height={128}
-                src={fileInfo.preview}
+                src={fileInfo?.preview || ""}
                 alt="Preview"
                 className="h-full w-full object-cover"
+                unoptimized={true} // Important for object URLs to work properly
               />
               <button
                 type="button"
                 onClick={() => {
-                  URL.revokeObjectURL(fileInfo.preview!);
+                  if (fileInfo.preview) {
+                    URL.revokeObjectURL(fileInfo.preview);
+                  }
                   setFileData((prev) => ({
                     ...prev,
                     [field.id]: { file: null, preview: null },
                   }));
+                  // Also clear the file from form data
+                  setFormData((prev) => ({ ...prev, [field.id]: "" }));
                 }}
                 className="absolute right-1 top-1 rounded-full bg-white p-1 shadow-md hover:bg-gray-100"
               >
@@ -393,14 +488,14 @@ const FormModal = ({ onClose, fields, title, onSubmit }: FormModalProps) => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-50  flex items-center justify-center overflow-y-auto bg-black/50 p-4 backdrop-blur-sm"
+        className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/50 p-4 backdrop-blur-sm"
       >
         <motion.div
           variants={modalVariants}
           initial="hidden"
           animate="visible"
           exit="exit"
-          className="relative max-h-[70vh] w-1-2 overflow-y-auto rounded-xl bg-white shadow-2xl sm:max-w-xl md:max-w-2xl lg:max-w-4xl"
+          className="w-1-2 relative max-h-[70vh] overflow-y-auto rounded-xl bg-white shadow-2xl sm:max-w-xl md:max-w-2xl lg:max-w-4xl"
         >
           {/* Header */}
           <div className="sticky top-4 z-10 border-b border-gray-200 bg-white px-4 py-4 pt-10 sm:px-6">
@@ -492,7 +587,11 @@ const FormModal = ({ onClose, fields, title, onSubmit }: FormModalProps) => {
                                     {key.replace(/([A-Z])/g, " $1").trim()}
                                   </label>
                                   <input
-                                    type="text"
+                                    type={
+                                      key.toLowerCase().includes("km")
+                                        ? "number"
+                                        : "text"
+                                    }
                                     id={`tyre-${index}-${key}`}
                                     name={key}
                                     value={value}

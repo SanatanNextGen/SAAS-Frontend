@@ -1,7 +1,17 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-
+import {
+  fetchBiltyEntry,
+  createBiltyEntry,
+  updateBiltyEntry,
+  deleteBiltyEntry,
+} from "@/lib/api/builtyEntry";
+import { fetchOrders } from "@/lib/api/orderForm";
+import { fetchConsignees } from "@/lib/api/consignee";
+import { fetchConsignors } from "@/lib/api/consignor";
+import { fetchVehicles } from "@/lib/api/vehicle";
+import { fetchStations } from "@/lib/api/station";
 interface Row {
   paymentMode?: string;
   debit?: string;
@@ -42,12 +52,12 @@ const BilltyEntry: React.FC = () => {
           vehicleResponse,
           stationResponse,
         ] = await Promise.all([
-          fetch("/data/bilty.json"),
-          fetch("/data/orderEntry.json"),
-          fetch("/data/consignee.json"),
-          fetch("/data/consignor.json"),
-          fetch("/data/vehicle.json"),
-          fetch("/data/station.json"),
+          fetchBiltyEntry(),
+          fetchConsignees(),
+          fetchConsignors(),
+          fetchOrders(),
+          fetchStations(),
+          fetchVehicles(),
         ]);
 
         const biltyData = await biltyResponse.json();
